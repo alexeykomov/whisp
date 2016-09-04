@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message Thread {
+  string thread_id = 1;
+  string name = 2;
+  string avatar_link = 3;
+  int32 unread_count = 4;
+  string last_message_timestamp = 5;
+  string last_message_preview = 6;
+}

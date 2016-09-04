@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message Contact {
+  string contact_id = 1;
+  string name = 2;
+  string avatar_link = 3;
+  bool online = 4;
+  string linked_thread_id = 5;
+}

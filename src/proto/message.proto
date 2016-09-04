@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message Message {
+  string message_id = 1;
+  int32 sender_id = 2;
+  int32 receiver_id = 3;
+  bool encrypted = 4;
+  string message_text = 5;
+  string sent_timestamp = 6;
+  string thread_id = 7;
+  bool delivered = 8;
+  bool seen = 9;
+  bool incoming = 10;
+  bool with_avatar = 11;
+  bool with_tail = 12;
+  string avatar_link = 13;
+  bool belongs_to_group = 14;
+  bool first_in_series = 15;
+  bool last_in_series = 16;
+}

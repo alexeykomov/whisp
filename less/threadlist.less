@@ -1,0 +1,60 @@
+/*
+ * Copyright (c) 2013. Reflect, Alex K.
+ */
+
+/* Author:alexeykcontact@gmail.com (Alex K.) */
+
+.thread-list.list-block {
+  .item-content {
+     height: 74px;
+     padding-left: 10px;
+     .item-inner {
+       flex-direction: column;
+       -webkit-box-align: start;
+       -ms-flex-align: start;
+       -webkit-align-items: flext-start;
+       align-items: flex-start;
+       justify-content: flex-start;
+
+       width: ~"calc(100% - 44px)";
+       padding-left: 10px;
+       .item-title {
+         color: #000;
+       }
+       .message-preview {
+         font-size: 0.7em;
+         color: #929292;
+       }
+     }
+     &.selected {
+       background-image: linear-gradient(to bottom, rgb(84,143,245), rgb(85,144,246));
+       color: #fff;
+       .item-inner {
+         .item-title {
+           color: #fff;
+         }
+         .message-preview {
+           color: #fff;
+         }
+       }
+     }
+  }
+}
+
+.thread-avatar {
+  box-sizing: border-box;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  position: relative;
+  top: 1px;
+  background-size: cover;
+  opacity: 1;
+  -webkit-transition: 400ms .2s;
+  transition: 400ms .2s;
+  -webkit-transition-duration: 400ms;
+  transition-duration: 400ms;
+  line-height: 64px;
+  display: inline-block;
+  padding: 2px;
+}
