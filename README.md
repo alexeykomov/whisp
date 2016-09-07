@@ -2,7 +2,9 @@ Whisp
 =============
 
 Whisp is secure messenger that is purely web-based.
+
 It is a work in progress.
+
 For now, you can render some of UI with dummy data.
 
 Installation and run
