@@ -23,14 +23,20 @@ whisp.reducer.openThreadFromThreads = (aOldState, aOpenThreadFromThreadsAction) 
   /**@type {whisp.State}*/
   let newStatePart = {};
 
-  const threadId = aOpenThreadFromThreadsAction.threadId;
-  newStatePart.currentThreadId = threadId;
+  const oldThreadId = aOldState.currentThreadId;
+  const newThreadId = aOpenThreadFromThreadsAction.threadId;
+
+  newStatePart.currentThreadId = newThreadId;
   //Cache previous thread.
   newStatePart.messages = aOldState[`cached-messages-${
-      threadId}`] || [];
+      newThreadId}`] || [];
+  newStatePart.messageDrafts = Object.assign({}, aOldState.messageDrafts);
+  newStatePart.messageDrafts[oldThreadId] =
+      aOldState.currentMessageDraft;
+  newStatePart.currentMessageDraft = aOldState.messageDrafts[newThreadId];
 
   const correspondingContact = goog.array.find(aOldState.contacts,
-      aContact => threadId === aContact.getLinkedThreadId());
+      aContact => newThreadId === aContact.getLinkedThreadId());
   newStatePart.currentContactId = correspondingContact && correspondingContact.
       getContactId();
 

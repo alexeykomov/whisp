@@ -54,8 +54,10 @@ whisp.ui.MessagePane = React.createClass({
               {<whisp.ui.Messages
                   messages={this.props.messages}/>
               }
-              <whisp.ui.MessageBar currentMessageDraft={
-                this.props.currentMessageDraft}/>
+              <whisp.ui.MessageBar
+                  currentMessageDraft={this.props.currentMessageDraft}
+                  currentThreadId={this.props.currentThreadId}
+              />
             </div>
           </div>
         </div>

@@ -20,7 +20,6 @@ goog.require('whisp.action.CloseThreadAction');
 goog.require('whisp.action.ScreenSlideAction');
 
 
-
 /**
  *
  */
@@ -63,7 +62,7 @@ whisp.ui.ThreadNavBar = React.createClass({
 
   render() {
     return (
-        <nav className="navbar">
+        <nav className="navbar thread-navbar">
           <div className="navbar-inner">
             <div className="left">{
               this.props.isSmallScreen ?
@@ -83,11 +82,12 @@ whisp.ui.ThreadNavBar = React.createClass({
               <div className={`thread-status ${this.props.statusIsHighlighted ?
                   'online' : ''}`}>{this.props.threadStatus}</div>
             </div>
-            <div className="right">
-              <div className="contact-avatar" style={{
-                backgroundImage: `url(${this.props.avatarLink})`
-              }}></div>
-            </div>
+            <div className="right">{
+              this.props.isSmallScreen ?
+                  <div className="contact-avatar" style={{
+                    backgroundImage: `url(${this.props.avatarLink})`
+                  }}></div> : null
+            }</div>
           </div>
         </nav>
     );

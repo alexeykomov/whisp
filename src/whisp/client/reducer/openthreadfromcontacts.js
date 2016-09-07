@@ -25,13 +25,18 @@ whisp.reducer.openThreadFromContacts = (aOldState,
 
   /**@type {whisp.State}*/
   let newStatePart = {};
+  const oldThreadId = aOldState.currentThreadId;
 
   newStatePart.currentContactId = aOpenThreadFromContactsAction.contactId;
+  newStatePart.messageDrafts = Object.assign({}, aOldState.messageDrafts);
 
   if (aOpenThreadFromContactsAction.threadId) {
     const threadId = aOpenThreadFromContactsAction.threadId;
     newStatePart.messages = aOldState[`cached-messages-${threadId}`] || [];
     newStatePart.currentThreadId = threadId;
+    newStatePart.messageDrafts[oldThreadId] =
+        aOldState.currentMessageDraft;
+    newStatePart.currentMessageDraft = aOldState.messageDrafts[threadId];
   } else {
     newStatePart.contacts = [...aOldState.contacts];
     const contact = goog.array.find(newStatePart.contacts,
@@ -47,7 +52,11 @@ whisp.reducer.openThreadFromContacts = (aOldState,
     contact.setLinkedThreadId(newThreadId);
     newStatePart.messages = [];
     newStatePart.currentThreadId = newThreadId;
+    newStatePart.messageDrafts[oldThreadId] =
+        aOldState.currentMessageDraft;
+    newStatePart.currentMessageDraft = aOldState.messageDrafts[newThreadId];
   }
+
 
   return Object.assign({}, aOldState, newStatePart);
 };

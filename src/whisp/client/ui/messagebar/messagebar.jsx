@@ -23,6 +23,7 @@ whisp.ui.MessageBar = React.createClass({
   propTypes: {
     // List of contacts.
     currentMessageDraft: React.PropTypes.string.isRequired,
+    currentThreadId: React.PropTypes.string.isRequired,
   },
 
   getDefaultProps() {
@@ -32,7 +33,8 @@ whisp.ui.MessageBar = React.createClass({
   },
 
   shouldComponentUpdate(aProps, aState) {
-    return aProps.currentMessageDraft !== this.props.currentMessageDraft
+    return aProps.currentMessageDraft !== this.props.currentMessageDraft ||
+        aProps.currentThreadId !== this.props.currentThreadId;
   },
 
   /**
@@ -41,6 +43,10 @@ whisp.ui.MessageBar = React.createClass({
   onSubmit(aEvent) {
     this.dispatchSendMessage();
     this.messageBox_.getDOMNode().focus();
+  },
+
+  componentDidUpdate() {
+    //NOTE(alexk): here we may focus after each update, only for desktop.
   },
 
   dispatchSendMessage: function () {
@@ -65,7 +71,8 @@ whisp.ui.MessageBar = React.createClass({
               <i className="icon icon-camera"/>
             </a>*/}
             <whisp.ui.MessageBox onKeyDown={this.onTextAreaKeyDown}
-                                 currentMessageDraft={this.props.currentMessageDraft}
+                                 currentMessageDraft={
+                                   this.props.currentMessageDraft}
             ref={aMessageBox => this.messageBox_ = aMessageBox}/>
             <button className="link send-message"
                     onClick={this.onSubmit}

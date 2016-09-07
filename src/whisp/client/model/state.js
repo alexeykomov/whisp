@@ -227,6 +227,7 @@ whisp.State = {
   activeSidePaneType: whisp.state.SidePaneType.CONTACTS,
 
   /**
+   * Map of threadId -> text.
    * @type {Object.<string, string>}
    */
   messageDrafts: {},
