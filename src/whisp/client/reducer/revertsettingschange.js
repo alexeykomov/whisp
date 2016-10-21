@@ -14,10 +14,10 @@ goog.require('jspb.Message');
 
 /**
  * @param {whisp.State} aOldState
- * @param {whisp.action.ReceiveMessageAction} aReceiveMessageAction
+ * @param {whisp.action.SaveSettingsIsFailedAction} aSaveSettingsIsFailedAction
  * @return {whisp.State}
  */
-whisp.reducer.revertSettingsChange = (aOldState, aReceiveMessageAction) => {
+whisp.reducer.revertSettingsChange = (aOldState, aSaveSettingsIsFailedAction) => {
   /**@type {whisp.State}*/
   let newStatePart = {};
 

@@ -13,7 +13,6 @@ goog.provide('whisp.reducer.all');
 
 goog.require('whisp.State');
 goog.require('whisp.action.InitAction.TYPE');
-goog.require('whisp.action.OpenChatAction.TYPE');
 goog.require('whisp.action.SendMessageAction.TYPE');
 goog.require('whisp.action.ReceiveMessageAction.TYPE');
 goog.require('whisp.action.NotifyAboutWritingActivityAction.TYPE');
@@ -25,7 +24,6 @@ goog.require('whisp.action.CloseThreadAction.TYPE');
 goog.require('whisp.action.ScreenSizeChangeAction.TYPE');
 goog.require('whisp.action.ChangeSettingsAction.TYPE');
 goog.require('whisp.reducer.init');
-goog.require('whisp.reducer.openChat');
 goog.require('whisp.reducer.sendMessage');
 goog.require('whisp.reducer.receiveMessage');
 goog.require('whisp.reducer.updateMessageDraft');
@@ -55,10 +53,6 @@ whisp.reducer.all = (aState, aAction) => {
     case whisp.action.InitAction.TYPE: {
       return whisp.reducer.init(aState,
           /**@type {!whisp.action.InitAction}*/ (aAction));
-    }
-    case whisp.action.OpenChatAction.TYPE: {
-      return whisp.reducer.openChat(aState,
-          /**@type {!whisp.action.OpenChatAction}*/ (aAction));
     }
     case whisp.action.SendMessageAction.TYPE: {
       return whisp.reducer.sendMessage(aState,

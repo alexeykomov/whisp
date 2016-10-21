@@ -11,7 +11,7 @@
 goog.provide('whisp.ui.ContactList');
 
 
-goog.require('whisp.action.OpenChatAction');
+goog.require('whisp.action.OpenThreadFromContactsAction');
 goog.require('whisp.Store');
 
 

@@ -122,10 +122,9 @@ whisp.transport.clearPendingSaveSettings = function () {
 /**
  * Saves settings.
  * @param {proto.Settings} aSettings Settings object.
- * @param {boolean} aReload Whether reload is needed after settings are saved.
  * @return {Promise} Promised with save result.
  */
-whisp.transport.saveSettings = function(aSettings, aReload) {
+whisp.transport.saveSettings = function(aSettings) {
   whisp.transport.clearPendingSaveSettings();
   return new Promise((resolve, reject) => {
     whisp.transport.pendingSaveSettingsXhrIo_ =

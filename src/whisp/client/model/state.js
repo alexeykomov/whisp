@@ -250,7 +250,6 @@ whisp.State = {
 
   /**
    * State of particular screen manager.
-   * @type {whisp.state.ScreenManagerState}
    */
   [whisp.state.ScreenManagerType.SIDEPANE_AND_MAINPANE]:
       whisp.state.ScreenManagerState.LEFT,

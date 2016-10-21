@@ -27,7 +27,7 @@ whisp.thunk.saveSettings = (aSettings) =>
       return whisp.transport.saveSettings(aSettings).then(
           aSuccessResponse => {
             aDispatch(whisp.action.SaveSettingsIsSuccessfulAction.create());
-            if (aSettings.reload) {
+            if (aSettings.getReload()) {
               location.reload();
             }
           },

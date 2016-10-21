@@ -18,11 +18,10 @@ goog.require('whisp.action.Action');
 
 /**
  * @param {proto.Settings} aSettings Settings object.
- * @param {=boolean} opt_reload Whether we need a reload.
  * @constructor
  * @extends {whisp.action.Action}
  */
-whisp.action.ChangeSettingsAction = function(aSettings, opt_reload) {
+whisp.action.ChangeSettingsAction = function(aSettings) {
   /**
    * Action type.
    * @type {string}
@@ -33,11 +32,6 @@ whisp.action.ChangeSettingsAction = function(aSettings, opt_reload) {
    * @type {proto.Settings}
    */
   this.settings = aSettings;
-
-  /**
-   * @type {boolean}
-   */
-  this.reload = !!opt_reload;
 };
 goog.inherits(whisp.action.ChangeSettingsAction, whisp.action.Action);
 
