@@ -14,6 +14,8 @@ goog.provide('whisp.ui.SettingsList');
 goog.require('whisp.action.OpenSettingsAction');
 goog.require('whisp.state.SettingsType');
 goog.require('whisp.Store');
+goog.require('goog.string');
+
 
 
 /**
@@ -34,7 +36,8 @@ whisp.ui.SettingsList = React.createClass({
 
   onClick(aEvent) {
     aEvent.preventDefault();
-    const itemType = aEvent.currentTarget.dataset['itemType'];
+    const itemType = aEvent.currentTarget.dataset[
+        goog.string.toCamelCase('item-type')];
 
     whisp.Store.dispatch(whisp.action.OpenSettingsAction.create(
         itemType));

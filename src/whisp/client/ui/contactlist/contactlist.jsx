@@ -13,6 +13,8 @@ goog.provide('whisp.ui.ContactList');
 
 goog.require('whisp.action.OpenThreadFromContactsAction');
 goog.require('whisp.Store');
+goog.require('goog.string');
+
 
 
 /**
@@ -34,8 +36,10 @@ whisp.ui.ContactList = React.createClass({
   onClick(aEvent) {
     aEvent.preventDefault();
 
-    const threadId = aEvent.currentTarget.dataset['threadId'];
-    const contactId = aEvent.currentTarget.dataset['contactId'];
+    const threadId = aEvent.currentTarget.dataset[
+        goog.string.toCamelCase('thread-id')];
+    const contactId = aEvent.currentTarget.dataset[
+        goog.string.toCamelCase('contact-id')];
     whisp.Store.dispatch(whisp.action.OpenThreadFromContactsAction.create(
         contactId, threadId));
     whisp.Store.dispatch(whisp.action.ScreenSlideAction.create(

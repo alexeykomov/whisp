@@ -15,6 +15,7 @@ goog.require('whisp.action.SwitchSidePaneAction');
 goog.require('whisp.i18n.Symbols');
 goog.require('whisp.state.SidePaneType');
 goog.require('whisp.Store');
+goog.require('goog.string');
 
 
 
@@ -49,7 +50,8 @@ whisp.ui.ToggleBar = React.createClass({
     aEvent.preventDefault();
 
     const dataset = aEvent.currentTarget.dataset;
-    const sidePaneType = dataset && dataset['sidePaneType'];
+    const sidePaneType = dataset && dataset[
+        goog.string.toCamelCase('side-pane-type')];
 
     if (!sidePaneType) {
       return;
@@ -60,7 +62,8 @@ whisp.ui.ToggleBar = React.createClass({
   },
 
   tabIsActiveChecker(aForWhichSidePaneType) {
-    return `tab-link ${aForWhichSidePaneType === this.props.activeSidePaneType ? 'active' : ''}`;
+    return `tab-link ${aForWhichSidePaneType === this.props.activeSidePaneType ?
+        'active' : ''}`;
   },
 
   sidePaneTypeToElement(aSidePaneType, aIndex) {

@@ -13,6 +13,8 @@ goog.provide('whisp.ui.ChatList');
 
 goog.require('whisp.action.OpenThreadFromThreadsAction');
 goog.require('whisp.Store');
+goog.require('goog.string');
+
 
 
 /**
@@ -33,7 +35,8 @@ whisp.ui.ChatList = React.createClass({
 
   onClick(aEvent) {
     aEvent.preventDefault();
-    const threadId = aEvent.currentTarget.dataset['threadId'];
+    const threadId = aEvent.currentTarget.dataset[
+        goog.string.toCamelCase('thread-id')];
 
     whisp.Store.dispatch(whisp.action.OpenThreadFromThreadsAction.create(
         threadId));
