@@ -16,6 +16,7 @@ goog.require('proto.Message');
 goog.require('proto.Thread');
 goog.require('proto.SettingsItem');
 goog.require('whisp.i18n.Symbols');
+goog.require('proto.Settings');
 goog.require('whisp.state.SidePaneType');
 goog.require('whisp.state.SettingsType');
 goog.require('whisp.state.ScreenManagerState');
@@ -129,6 +130,11 @@ const messages = [
  * @typedef {Object}
  */
 whisp.State = {
+
+  /**
+   * @type {string}
+   */
+  uiLanguage: 'en',
 
   /**
    * @type {!Array.<proto.Message>}
@@ -253,4 +259,24 @@ whisp.State = {
    * @type {boolean}
    */
   isSmallScreen: false,
+
+  /**
+   * @type {proto.Settings}
+   */
+  settings: (() => {
+    const settings = new proto.Settings;
+    settings.setUiLanguage('en');
+    settings.setReload(false);
+    return settings;
+  })(),
+
+  /**
+   * @type {proto.Settings}
+   */
+  backupSettings: (() => {
+    const settings = new proto.Settings;
+    settings.setUiLanguage('en');
+    settings.setReload(false);
+    return settings;
+  })(),
 };

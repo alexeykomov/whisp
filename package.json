@@ -21,7 +21,7 @@
     "concat": "npm run clean-ui && cat node_modules/redux/dist/redux.min.js >> target/client/output-compiled-ui.js && cat node_modules/redux-thunk/dist/redux-thunk.min.js >> target/client/output-compiled-ui.js && cat target/client/output-compiled-ui.js.tmp >> target/client/output-compiled-ui.js && npm run clean-ui-tmp",
     "concat-with-router": "cat node_modules/redux/dist/redux.min.js >> target/client/output-compiled-ui.js && cat node_modules/redux-thunk/dist/redux-thunk.min.js >> target/client/output-compiled-ui.js && cat node_modules/react-router/umd/ReactRouter.min.js >> target/client/output-compiled-ui.js",
     "compile-less": "lessc --compress --verbose ./less/all.less > ./target/client/output-compiled.css",
-    "protoc": "./bin/protoc-3.0.0-beta-4-osx-x86_64/bin/protoc --js_out=./src/proto:. ./src/proto/*.proto"
+    "protoc": "./bin/protoc-experimental/protoc --js_out=./src/proto:. ./src/proto/*.proto"
   },
   "keywords": [
     "messenger",
@@ -59,6 +59,7 @@
     "gulp-tar": "^1.4.0",
     "less": "^2.7.1",
     "nodemon": "^1.10.0",
+    "pbnj": "^0.11.0",
     "react-externs": "^0.13.6",
     "yargs": "^3.21.0"
   },

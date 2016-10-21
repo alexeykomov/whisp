@@ -28,11 +28,11 @@ class ScreenSizeMonitor extends goog.events.EventHandler{
 
   enterDocument() {
     this.listen(this.viewPortSizeMonitor_, goog.events.EventType.RESIZE,
-        this.onScreenSizeChange);
-    this.onScreenSizeChange();
+        ScreenSizeMonitor.onScreenSizeChange);
+    ScreenSizeMonitor.onScreenSizeChange();
   }
 
-  onScreenSizeChange() {
+  static onScreenSizeChange() {
     if (window.matchMedia && window.matchMedia(
             whisp.world.ScreenSizeMonitor.BIG_SCREEN_QUERY).matches) {
       whisp.Store.dispatch(whisp.action.ScreenSizeChangeAction.create(false));

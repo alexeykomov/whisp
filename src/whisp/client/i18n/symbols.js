@@ -31,6 +31,13 @@ whisp.i18n.Symbols_en = {
   ONLINE: 'online',
   NO_THREADS: 'Select chat to message someone...',
   NO_MESSAGES: 'This dialog has no messages...',
+  LANGUAGE_NAMES: [
+    ['en', 'English'],
+    ['ru', 'Русский'],
+    ['by', 'Беларускi'],
+    ['fr', 'Français']
+  ],
+  CHANGE_LANGUAGE_CONFIRM: 'Changing a language requires reload. Do you want to proceed?',
 };
 
 
@@ -45,6 +52,13 @@ whisp.i18n.Symbols_ru = {
   ONLINE: 'онлайн',
   NO_THREADS: 'Выберите чат для сообщения кому-то...',
   NO_MESSAGES: 'В этом диалоге нет сообщений...',
+  LANGUAGE_NAMES: [
+    ['en', 'English'],
+    ['ru', 'Русский'],
+    ['by', 'Беларускi'],
+    ['fr', 'Français']
+  ],
+  CHANGE_LANGUAGE_CONFIRM: 'Для изменения языка нужна перезагрука. Продолжить?',
 };
 
 
@@ -59,6 +73,13 @@ whisp.i18n.Symbols_by = {
   ONLINE: 'анлайн',
   NO_THREADS: 'Выберыце чат для паведамлення камусьцi...',
   NO_MESSAGES: 'Ў гэтым дыялоге няма паведамленняў...',
+  LANGUAGE_NAMES: [
+    ['en', 'English'],
+    ['ru', 'Русский'],
+    ['by', 'Беларускi'],
+    ['fr', 'Français']
+  ],
+  CHANGE_LANGUAGE_CONFIRM: 'Для змены мовы неабходна перазагрузка. Працягваць?',
 };
 
 
@@ -73,6 +94,13 @@ whisp.i18n.Symbols_fr = {
   ONLINE: 'ligne',
   NO_THREADS: 'Sélectionnez le chat à un message de quelqu\'un...',
   NO_MESSAGES: 'Cette boîte de dialogue n\'a pas de messages...',
+  LANGUAGE_NAMES: [
+    ['en', 'English'],
+    ['ru', 'Русский'],
+    ['by', 'Беларускi'],
+    ['fr', 'Français']
+  ],
+  CHANGE_LANGUAGE_CONFIRM: 'Modification d\'une langue requiert reload. Voulez-vous poursuivre?',
 };
 
 

@@ -99,6 +99,7 @@ whisp.ui.MainBody = React.createClass({
                            contacts={this.getStoreState().contacts}
                            isSmallScreen={this.getStoreState().isSmallScreen}
                            currentSettingsItem={this.getStoreState().currentSettingsItem}
+                           settings={this.getStoreState().settings}
         />
       </whisp.ui.ScreenManager>
     } else {
@@ -120,6 +121,7 @@ whisp.ui.MainBody = React.createClass({
                            contacts={this.getStoreState().contacts}
                            isSmallScreen={this.getStoreState().isSmallScreen}
                            currentSettingsItem={this.getStoreState().currentSettingsItem}
+                           settings={this.getStoreState().settings}
         />
       </div>
     }

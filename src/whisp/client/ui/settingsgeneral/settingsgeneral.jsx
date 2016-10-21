@@ -13,8 +13,9 @@ goog.provide('whisp.ui.SettingsGeneral');
 
 goog.require('whisp.i18n.Symbols');
 goog.require('whisp.state.SettingsType');
-goog.require('whisp.ui.Messages');
 goog.require('whisp.ui.SettingsNavBar');
+goog.require('proto.Settings');
+goog.require('whisp.thunk.saveSettings');
 
 
 /**
@@ -23,17 +24,31 @@ goog.require('whisp.ui.SettingsNavBar');
 whisp.ui.SettingsGeneral = React.createClass({
   propTypes: {
     isSmallScreen: React.PropTypes.bool.isRequired,
+    settings: React.PropTypes.object.isRequired,
   },
 
   getDefaultProps() {
     return {
       isSmallScreen: true,
+      settings: new proto.Settings,
+    }
+  },
+
+  onLanguageChange(aEvent) {
+    if (confirm(whisp.i18n.Symbols.CHANGE_LANGUAGE_CONFIRM)) {
+      const uiLanguage = aEvent.target.value;
+      const settings = (() => {
+        const newSettings = this.props.settings.cloneMessage();
+        newSettings.uiLanguage = uiLanguage;
+        newSettings.reload = true;
+        return newSettings;
+      })();
+      whisp.Store.dispatch(whisp.thunk.saveSettings(settings));
     }
   },
 
   render() {
     return (
-
         <div className={`view ${this.props.isSmallScreen ? '' :
             'view-main'}`}>
           <whisp.ui.SettingsNavBar
@@ -51,20 +66,14 @@ whisp.ui.SettingsGeneral = React.createClass({
                                  htmlFor="select-languages">
                             Languages</label>
                           <div className="item-input" id="select-languages">
-                            <select>
-                              <option
-                                  value="eC9kYi53svvCYkZi1wB7GMULj-G6dWw7YBCgIKab4mwXr9ziXpIAFHJCPxfVh-jr">
-                                Work
-                              </option>
-                              <option
-                                  value="eN6k8k9O-0L2tnhtwHXCSOxsIYXzBudjwi1pjXxlk-xJooMkMh7cPgawwFO7cuJS">
-                                Test
-                              </option>
-                              <option
-                                  value="e5o2Ov8rklEotXtN-1nGmPBcrYLzP4eJ4gLXgMleFkGDvwAFGogaUzUNxouoBw54">
-                                Meetings
-                              </option>
-                            </select>
+                            <select onChange={this.onLanguageChange}
+                                    value={this.props.settings.uiLanguage}>{
+                              whisp.i18n.Symbols.LANGUAGE_NAMES.map(
+                                  aLanguageNamePair => <option
+                                      value={aLanguageNamePair[0]}>
+                                    {aLanguageNamePair[1]}
+                                  </option>)
+                            }</select>
                           </div>
                         </div>
                       </div>

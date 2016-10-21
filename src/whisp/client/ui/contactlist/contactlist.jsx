@@ -92,7 +92,7 @@ whisp.ui.ContactList = React.createClass({
     return (
         <div className="list-block contact-list">
           <ul>{
-            this.props.contacts.map(this.contactToElement.bind(this))
+            this.props.contacts.map(this.contactToElement)
           }</ul>
         </div>
     );

@@ -22,6 +22,7 @@ goog.require('whisp.Store');
 goog.require('whisp.ui.MainBody');
 goog.require('whisp.action.InitAction');
 goog.require('whisp.world.ScreenSizeMonitor');
+goog.require('whisp.transport');
 
 
 
@@ -154,6 +155,7 @@ class EntryPoint extends goog.events.EventHandler {
 
     this.pixelDensityMonitor.dispose();
     this.screenSizeMonitor.dispose();
+    whisp.transport.dispose();
 
     //This class dispose logic.
     this.channel.port1.close();

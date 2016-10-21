@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Settings {
+  string ui_language = 1;
+  bool reload = 2;
+}

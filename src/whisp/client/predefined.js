@@ -12,7 +12,8 @@ goog.provide('whisp.predefined');
 
 //TODO(alexk): much of this file will go to cfg
 /**
- * @define {string} UI type constant. Defined on compile time.
+ * @define {string} UI type constant. Defined on compile time. Either '' or
+ * 'TOUCH'.
  */
 whisp.UI_TYPE = '';
 
@@ -28,14 +29,14 @@ whisp.WORKER_SCRIPT_NAME = 'static/output-compiled-worker.js';
  * @type {boolean}
  * @const
  */
-whisp.MOBILE = whisp.UI_TYPE == 'MOBILE';
+whisp.TOUCH = whisp.UI_TYPE == 'TOUCH';
 
 
 /**
  * Feature flag - whether larger targets enabled, for touch.
  * @type {boolean}
  */
-whisp.TOUCH_INTERFACE_ENABLED = whisp.MOBILE;
+whisp.TOUCH_INTERFACE_ENABLED = whisp.TOUCH;
 
 
 /**
@@ -50,4 +51,4 @@ whisp.ARTIFICIAL_SCROLLER_ENABLED = goog.userAgent.IPHONE ||
  * Whether wireless communication is used.
  * @type {boolean}
  */
-whisp.WIRELESS_COMMUNICATION_IS_USED = whisp.MOBILE;
+whisp.WIRELESS_COMMUNICATION_IS_USED = whisp.TOUCH;

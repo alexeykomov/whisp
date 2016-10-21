@@ -80,7 +80,7 @@ whisp.ui.ChatList = React.createClass({
     return (
         <div className="list-block thread-list">
           <ul>{
-            this.props.threads.map(this.threadToElement.bind(this))
+            this.props.threads.map(this.threadToElement)
           }</ul>
         </div>
     );

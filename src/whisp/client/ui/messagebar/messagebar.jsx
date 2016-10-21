@@ -33,8 +33,11 @@ whisp.ui.MessageBar = React.createClass({
   },
 
   shouldComponentUpdate(aProps, aState) {
-    return aProps.currentMessageDraft !== this.props.currentMessageDraft ||
-        aProps.currentThreadId !== this.props.currentThreadId;
+    if (whisp.TOUCH) {
+      return aProps.currentMessageDraft !== this.props.currentMessageDraft ||
+          aProps.currentThreadId !== this.props.currentThreadId;
+    }
+    return true;
   },
 
   /**
@@ -42,11 +45,18 @@ whisp.ui.MessageBar = React.createClass({
    */
   onSubmit(aEvent) {
     this.dispatchSendMessage();
+    this.messageBoxFocus();
+  },
+
+  messageBoxFocus() {
     this.messageBox_.getDOMNode().focus();
   },
 
   componentDidUpdate() {
-    //NOTE(alexk): here we may focus after each update, only for desktop.
+    //NOTE(alexk): here we focus after each update, only for desktop.
+    if (!whisp.TOUCH) {
+      this.messageBoxFocus();
+    }
   },
 
   dispatchSendMessage: function () {
@@ -73,7 +83,7 @@ whisp.ui.MessageBar = React.createClass({
             <whisp.ui.MessageBox onKeyDown={this.onTextAreaKeyDown}
                                  currentMessageDraft={
                                    this.props.currentMessageDraft}
-            ref={aMessageBox => this.messageBox_ = aMessageBox}/>
+              ref={aMessageBox => this.messageBox_ = aMessageBox}/>
             <button className="link send-message"
                     onClick={this.onSubmit}
                     onTouchEnd={this.onSubmit}>Send</button>

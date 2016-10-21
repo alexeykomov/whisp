@@ -23,6 +23,7 @@ goog.require('whisp.action.OpenThreadFromThreadsAction.TYPE');
 goog.require('whisp.action.ScreenSlideAction.TYPE');
 goog.require('whisp.action.CloseThreadAction.TYPE');
 goog.require('whisp.action.ScreenSizeChangeAction.TYPE');
+goog.require('whisp.action.ChangeSettingsAction.TYPE');
 goog.require('whisp.reducer.init');
 goog.require('whisp.reducer.openChat');
 goog.require('whisp.reducer.sendMessage');
@@ -35,6 +36,9 @@ goog.require('whisp.reducer.openThreadFromThreads');
 goog.require('whisp.reducer.screenSlide');
 goog.require('whisp.reducer.closeThread');
 goog.require('whisp.reducer.changeApplicationSize');
+goog.require('whisp.reducer.changeSettings');
+goog.require('whisp.reducer.finishSettingsChange');
+goog.require('whisp.reducer.revertSettingsChange');
 
 
 /**
@@ -95,6 +99,18 @@ whisp.reducer.all = (aState, aAction) => {
     case whisp.action.ScreenSizeChangeAction.TYPE: {
       return whisp.reducer.changeApplicationSize(aState,
           /**@type {!whisp.action.ScreenSizeChangeAction}*/ (aAction));
+    }
+    case whisp.action.ChangeSettingsAction.TYPE: {
+      return whisp.reducer.changeSettings(aState,
+          /**@type {!whisp.action.ChangeSettingsAction}*/ (aAction));
+    }
+    case whisp.action.SaveSettingsIsSuccessfulAction.TYPE: {
+      return whisp.reducer.finishSettingsChange(aState,
+          /**@type {!whisp.action.SaveSettingsIsSuccessfulAction}*/ (aAction));
+    }
+    case whisp.action.SaveSettingsIsFailedAction.TYPE: {
+      return whisp.reducer.revertSettingsChange(aState,
+          /**@type {!whisp.action.SaveSettingsIsFailedAction}*/ (aAction));
     }
     default:{return aState;}
   }

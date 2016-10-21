@@ -48,7 +48,7 @@ const SECRET = 'whisp_apritaionpg391u2390457asdhf2195ghapigf';
 
 const app = express();
 
-// Middleware.
+//Middleware.
 app.set('port', appConfig.APP_PORT);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -72,20 +72,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/static', express.static(path.join(__dirname, '..', 'client')));
 
-// Development only routes.
+//Development only routes.
 if ('development' == app.get('env')) {
   app.locals.pretty = true;
 }
 
-// Routes.
+//Routes.
 app.get('/', routesView.render);
 
-// Error handling middleware should be loaded after the loading the routes.
+//Error handling middleware should be loaded after the loading the routes.
 if ('development' == app.get('env')) {
   app.use(errorHandler());
 }
 
-// Start an application.
+//Start an application.
 http.createServer(app).listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
 });

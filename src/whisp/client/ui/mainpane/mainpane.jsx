@@ -27,6 +27,7 @@ whisp.ui.MainPane = React.createClass({
     currentThreadId: React.PropTypes.string.isRequired,
     isSmallScreen: React.PropTypes.bool.isRequired,
     currentSettingsItem: React.PropTypes.string.isRequired,
+    settings: React.PropTypes.object.isRequired,
   },
 
   render() {
@@ -46,6 +47,7 @@ whisp.ui.MainPane = React.createClass({
           return <whisp.ui.SettingsPane
               currentSettingsItem={this.props.currentSettingsItem}
               isSmallScreen={this.props.isSmallScreen}
+              settings={this.props.settings}
           />;
         default:
           return null;

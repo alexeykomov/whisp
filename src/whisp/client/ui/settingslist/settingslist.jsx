@@ -72,7 +72,7 @@ whisp.ui.SettingsList = React.createClass({
     return (
         <div className="list-block settings-list">
           <ul>{
-            this.props.settingsItems.map(this.itemToElement.bind(this))
+            this.props.settingsItems.map(this.itemToElement)
           }</ul>
         </div>
     );
