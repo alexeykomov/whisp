@@ -29,6 +29,7 @@ whisp.ui.MessagePane = React.createClass({
     contacts: React.PropTypes.array.isRequired,
     currentThreadId: React.PropTypes.string.isRequired,
     isSmallScreen: React.PropTypes.bool.isRequired,
+    textAreaHeight: React.PropTypes.number.isRequired,
   },
 
   render() {
@@ -52,11 +53,13 @@ whisp.ui.MessagePane = React.createClass({
           <div className="pages messages-pages">
             <div className="page">
               {<whisp.ui.Messages
-                  messages={this.props.messages}/>
+                  messages={this.props.messages}
+                  textAreaHeight={this.props.textAreaHeight}/>
               }
               <whisp.ui.MessageBar
                   currentMessageDraft={this.props.currentMessageDraft}
                   currentThreadId={this.props.currentThreadId}
+                  textAreaHeight={this.props.textAreaHeight}
               />
             </div>
           </div>

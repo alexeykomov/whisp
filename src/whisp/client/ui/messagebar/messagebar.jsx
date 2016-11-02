@@ -24,6 +24,7 @@ whisp.ui.MessageBar = React.createClass({
     // List of contacts.
     currentMessageDraft: React.PropTypes.string.isRequired,
     currentThreadId: React.PropTypes.string.isRequired,
+    textAreaHeight: React.PropTypes.number.isRequired,
   },
 
   getDefaultProps() {
@@ -35,7 +36,8 @@ whisp.ui.MessageBar = React.createClass({
   shouldComponentUpdate(aProps, aState) {
     if (whisp.TOUCH) {
       return aProps.currentMessageDraft !== this.props.currentMessageDraft ||
-          aProps.currentThreadId !== this.props.currentThreadId;
+          aProps.currentThreadId !== this.props.currentThreadId ||
+          aProps.textAreaHeight !== this.props.textAreaHeight;
     }
     return true;
   },
@@ -75,7 +77,9 @@ whisp.ui.MessageBar = React.createClass({
 
   render() {
     return (
-        <div className="toolbar messagebar toolbar-hidden">
+        <div className="toolbar messagebar toolbar-hidden" style={{
+          height: `${44 + (this.props.textAreaHeight - 28)}px`
+        }}>
           <div className="toolbar-inner">
             {/*<a href="#" className="link icon-only">
               <i className="icon icon-camera"/>
@@ -83,6 +87,7 @@ whisp.ui.MessageBar = React.createClass({
             <whisp.ui.MessageBox onKeyDown={this.onTextAreaKeyDown}
                                  currentMessageDraft={
                                    this.props.currentMessageDraft}
+                                 height={this.props.textAreaHeight}
               ref={aMessageBox => this.messageBox_ = aMessageBox}/>
             <button className="link send-message"
                     onClick={this.onSubmit}

@@ -278,4 +278,6 @@ whisp.State = {
     settings.setReload(false);
     return settings;
   })(),
+
+  textAreaHeight: 28,
 };

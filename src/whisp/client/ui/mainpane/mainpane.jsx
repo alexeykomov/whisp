@@ -28,6 +28,7 @@ whisp.ui.MainPane = React.createClass({
     isSmallScreen: React.PropTypes.bool.isRequired,
     currentSettingsItem: React.PropTypes.string.isRequired,
     settings: React.PropTypes.object.isRequired,
+    textAreaHeight: React.PropTypes.number.isRequired,
   },
 
   render() {
@@ -42,6 +43,7 @@ whisp.ui.MainPane = React.createClass({
               contacts={this.props.contacts}
               currentThreadId={this.props.currentThreadId}
               isSmallScreen={this.props.isSmallScreen}
+              textAreaHeight={this.props.textAreaHeight}
           />;
         case whisp.state.SidePaneType.SETTINGS:
           return <whisp.ui.SettingsPane

@@ -22,16 +22,19 @@ whisp.ui.Messages = React.createClass({
   propTypes: {
     // List of contacts.
     messages: React.PropTypes.array.isRequired,
+    textAreaHeight: React.PropTypes.number.isRequired,
   },
 
   getDefaultProps() {
     return {
-      messages: []
+      messages: [],
+      textAreaHeight: 0,
     }
   },
 
   shouldComponentUpdate(aProps, aState) {
-    return aProps.messages !== this.props.messages
+    return aProps.messages !== this.props.messages ||
+        aProps.textAreaHeight !== this.props.textAreaHeight
   },
 
   /**
@@ -116,7 +119,10 @@ whisp.ui.Messages = React.createClass({
   render() {
     return (
         <div className="page-content messages-content" ref={
-          aMessagesFrame => this.messagesFrame_ = aMessagesFrame}>
+          aMessagesFrame => this.messagesFrame_ = aMessagesFrame}
+             style={{
+               height: `calc(100% - ${44 + (this.props.textAreaHeight - 28)}px)`
+             }}>
           <div className="messages messages-auto-layout">
             {
               this.prepareForUi(this.props.messages).map(
