@@ -35,6 +35,22 @@ whisp.ui.MessageBox = React.createClass({
     }
   },
 
+  getInitialState() {
+    return {
+      height: this.props.height
+    }
+  },
+
+  changeHeight_() {
+    this.setState({height: this.props.height});
+  },
+
+  componentWillReceiveProps(aProps) {
+    if (aProps.height !== this.props.height) {
+      requestAnimationFrame(this.changeHeight_);
+    }
+  },
+
   shouldComponentUpdate(aProps, aState) {
     return aProps.currentMessageDraft !== this.props.currentMessageDraft ||
         aProps.height !== this.props.height;

@@ -23,6 +23,7 @@ goog.require('whisp.ui.MainBody');
 goog.require('whisp.action.InitAction');
 goog.require('whisp.world.ScreenSizeMonitor');
 goog.require('whisp.transport');
+goog.require('goog.dom.animationFrame');
 
 
 
@@ -170,6 +171,9 @@ class EntryPoint extends goog.events.EventHandler {
  */
 whisp.ui.EntryPoint = EntryPoint;
 
+goog.dom.animationFrame.polyfill.install();
 
 // Call main method.
 new whisp.ui.EntryPoint().enterDocument();
+
+

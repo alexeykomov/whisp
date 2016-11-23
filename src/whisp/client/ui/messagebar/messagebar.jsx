@@ -33,6 +33,22 @@ whisp.ui.MessageBar = React.createClass({
     }
   },
 
+  getInitialState() {
+    return {
+      textAreaHeight: this.props.textAreaHeight
+    }
+  },
+
+  changeHeight_() {
+    this.setState({textAreaHeight: this.props.textAreaHeight});
+  },
+
+  componentWillReceiveProps(aProps) {
+    if (aProps.textAreaHeight !== this.props.textAreaHeight) {
+      requestAnimationFrame(this.changeHeight_);
+    }
+  },
+
   shouldComponentUpdate(aProps, aState) {
     if (whisp.TOUCH) {
       return aProps.currentMessageDraft !== this.props.currentMessageDraft ||
@@ -77,9 +93,7 @@ whisp.ui.MessageBar = React.createClass({
 
   render() {
     return (
-        <div className="toolbar messagebar toolbar-hidden" style={{
-          height: `${44 + (this.props.textAreaHeight - 28)}px`
-        }}>
+        <div className="toolbar messagebar toolbar-hidden" style={{height: '100%'}}>
           <div className="toolbar-inner">
             {/*<a href="#" className="link icon-only">
               <i className="icon icon-camera"/>
@@ -87,7 +101,7 @@ whisp.ui.MessageBar = React.createClass({
             <whisp.ui.MessageBox onKeyDown={this.onTextAreaKeyDown}
                                  currentMessageDraft={
                                    this.props.currentMessageDraft}
-                                 height={this.props.textAreaHeight}
+                                 height={this.state.textAreaHeight}
               ref={aMessageBox => this.messageBox_ = aMessageBox}/>
             <button className="link send-message"
                     onClick={this.onSubmit}

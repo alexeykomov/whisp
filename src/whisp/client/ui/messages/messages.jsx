@@ -32,6 +32,22 @@ whisp.ui.Messages = React.createClass({
     }
   },
 
+  getInitialState() {
+    return {
+      textAreaHeight: this.props.textAreaHeight
+    }
+  },
+  
+  changeHeight_() {
+    this.setState({textAreaHeight: this.props.textAreaHeight});
+  },
+
+  componentWillReceiveProps(aProps) {
+    if (aProps.textAreaHeight !== this.props.textAreaHeight) {
+      requestAnimationFrame(this.changeHeight_);
+    }
+  },
+  
   shouldComponentUpdate(aProps, aState) {
     return aProps.messages !== this.props.messages ||
         aProps.textAreaHeight !== this.props.textAreaHeight
@@ -121,7 +137,7 @@ whisp.ui.Messages = React.createClass({
         <div className="page-content messages-content" ref={
           aMessagesFrame => this.messagesFrame_ = aMessagesFrame}
              style={{
-               height: `calc(100% - ${44 + (this.props.textAreaHeight - 28)}px)`
+               height: `calc(100% - ${20 + this.state.textAreaHeight}px)`
              }}>
           <div className="messages messages-auto-layout">
             {
