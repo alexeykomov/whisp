@@ -279,5 +279,8 @@ whisp.State = {
     return settings;
   })(),
 
-  textAreaHeight: 28,
+  /**
+   * @type {boolean}
+   */
+  messagesShouldBeScrolledDown: true,
 };

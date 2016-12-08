@@ -29,6 +29,7 @@ whisp.reducer.openThreadFromContacts = (aOldState,
 
   newStatePart.currentContactId = aOpenThreadFromContactsAction.contactId;
   newStatePart.messageDrafts = Object.assign({}, aOldState.messageDrafts);
+  newStatePart.messagesShouldBeScrolledDown = true;
 
   if (aOpenThreadFromContactsAction.threadId) {
     const threadId = aOpenThreadFromContactsAction.threadId;

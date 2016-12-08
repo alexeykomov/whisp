@@ -15,6 +15,7 @@ goog.require('goog.array');
 goog.require('whisp.action.SendMessageAction');
 goog.require('whisp.Store');
 goog.require('whisp.ui.MessageBox');
+goog.require('goog.dom');
 
 
 /**
@@ -24,36 +25,19 @@ whisp.ui.MessageBar = React.createClass({
     // List of contacts.
     currentMessageDraft: React.PropTypes.string.isRequired,
     currentThreadId: React.PropTypes.string.isRequired,
-    textAreaHeight: React.PropTypes.number.isRequired,
   },
 
   getDefaultProps() {
     return {
-      currentMessageDraft: ''
-    }
-  },
-
-  getInitialState() {
-    return {
-      textAreaHeight: this.props.textAreaHeight
-    }
-  },
-
-  changeHeight_() {
-    this.setState({textAreaHeight: this.props.textAreaHeight});
-  },
-
-  componentWillReceiveProps(aProps) {
-    if (aProps.textAreaHeight !== this.props.textAreaHeight) {
-      requestAnimationFrame(this.changeHeight_);
+      currentMessageDraft: '',
+      currentThreadId: '',
     }
   },
 
   shouldComponentUpdate(aProps, aState) {
     if (whisp.TOUCH) {
       return aProps.currentMessageDraft !== this.props.currentMessageDraft ||
-          aProps.currentThreadId !== this.props.currentThreadId ||
-          aProps.textAreaHeight !== this.props.textAreaHeight;
+          aProps.currentThreadId !== this.props.currentThreadId;
     }
     return true;
   },
@@ -77,6 +61,10 @@ whisp.ui.MessageBar = React.createClass({
     }
   },
 
+  componentWillUnmount() {
+    this.messageBox_ = null;
+  },
+
   dispatchSendMessage: function () {
     whisp.Store.dispatch(whisp.action.SendMessageAction.create(
         this.props.currentMessageDraft));
@@ -93,7 +81,7 @@ whisp.ui.MessageBar = React.createClass({
 
   render() {
     return (
-        <div className="toolbar messagebar toolbar-hidden" style={{height: '100%'}}>
+        <div className="toolbar messagebar toolbar-hidden">
           <div className="toolbar-inner">
             {/*<a href="#" className="link icon-only">
               <i className="icon icon-camera"/>
@@ -101,7 +89,6 @@ whisp.ui.MessageBar = React.createClass({
             <whisp.ui.MessageBox onKeyDown={this.onTextAreaKeyDown}
                                  currentMessageDraft={
                                    this.props.currentMessageDraft}
-                                 height={this.state.textAreaHeight}
               ref={aMessageBox => this.messageBox_ = aMessageBox}/>
             <button className="link send-message"
                     onClick={this.onSubmit}

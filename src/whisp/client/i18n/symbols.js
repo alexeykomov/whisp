@@ -38,6 +38,7 @@ whisp.i18n.Symbols_en = {
     ['fr', 'Français']
   ],
   CHANGE_LANGUAGE_CONFIRM: 'Changing a language requires reload. Do you want to proceed?',
+  MESSAGE: 'Message',
 };
 
 
@@ -59,6 +60,7 @@ whisp.i18n.Symbols_ru = {
     ['fr', 'Français']
   ],
   CHANGE_LANGUAGE_CONFIRM: 'Для изменения языка нужна перезагрука. Продолжить?',
+  MESSAGE: 'Сообщение',
 };
 
 
@@ -80,6 +82,7 @@ whisp.i18n.Symbols_by = {
     ['fr', 'Français']
   ],
   CHANGE_LANGUAGE_CONFIRM: 'Для змены мовы неабходна перазагрузка. Працягваць?',
+  MESSAGE: 'Паведамленне',
 };
 
 
@@ -101,6 +104,7 @@ whisp.i18n.Symbols_fr = {
     ['fr', 'Français']
   ],
   CHANGE_LANGUAGE_CONFIRM: 'Modification d\'une langue requiert reload. Voulez-vous poursuivre?',
+  MESSAGE: 'Message',
 };
 
 

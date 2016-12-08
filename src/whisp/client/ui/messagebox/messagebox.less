@@ -4,44 +4,17 @@
 
 /* Author:alexeykcontact@gmail.com (Alex K.) */
 
-.message-box-container {
-  position: relative;
-  width: 100%;
+.messagebar {
+  textarea {
+    border: none;
+    border-radius: 0;
+    min-height: 30px;
+    max-height: calc(12 * 30px);
+    margin: 17px 0;
+    transition: height .2s;
+  }
 }
 
-.message-box, .message-box-mirror {
+.message-box {
   min-height: 28px;
-}
-
-.message-box-mirror {
-  position: absolute;
-  visibility: hidden;
-  top: -9999px;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #c8c8cd;
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: none;
-  display: block;
-  padding: 3px 8px 3px;
-  margin: 0;
-  width: 100%;
-  min-height: 28px;
-  max-height: calc(12 * 28px);
-  color: #000;
-  font-size: 17px;
-  line-height: 20px;
-  font-family: inherit;
-  resize:none;
-  .flex-shrink(1);
-
-  white-space: pre-wrap;
-  word-wrap: break-word;
 }

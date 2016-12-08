@@ -23,7 +23,6 @@ goog.require('whisp.action.ScreenSlideAction.TYPE');
 goog.require('whisp.action.CloseThreadAction.TYPE');
 goog.require('whisp.action.ScreenSizeChangeAction.TYPE');
 goog.require('whisp.action.ChangeSettingsAction.TYPE');
-goog.require('whisp.action.ChangeTextAreaSizeAction.TYPE');
 goog.require('whisp.reducer.init');
 goog.require('whisp.reducer.sendMessage');
 goog.require('whisp.reducer.receiveMessage');
@@ -38,7 +37,6 @@ goog.require('whisp.reducer.changeApplicationSize');
 goog.require('whisp.reducer.changeSettings');
 goog.require('whisp.reducer.finishSettingsChange');
 goog.require('whisp.reducer.revertSettingsChange');
-goog.require('whisp.reducer.changeTextAreaHeight');
 
 
 /**
@@ -107,10 +105,6 @@ whisp.reducer.all = (aState, aAction) => {
     case whisp.action.SaveSettingsIsFailedAction.TYPE: {
       return whisp.reducer.revertSettingsChange(aState,
           /**@type {!whisp.action.SaveSettingsIsFailedAction}*/ (aAction));
-    }
-    case whisp.action.ChangeTextAreaSizeAction.TYPE: {
-      return whisp.reducer.changeTextAreaHeight(aState,
-          /**@type {!whisp.action.ChangeTextAreaSizeAction}*/ (aAction));
     }
     default:{return aState;}
   }
