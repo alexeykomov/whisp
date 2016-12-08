@@ -51,7 +51,7 @@ whisp.ui.MessagePane = React.createClass({
               isSmallScreen={this.props.isSmallScreen}
           />
           <div className="pages messages-pages">
-            <div className="page messages-messages-bar-wrapper">
+            <div className="page messages-and-messages-bar-wrapper">
               <whisp.ui.Messages
                   messages={this.props.messages}
                   messagesShouldBeScrolledDown={this.props.messagesShouldBeScrolledDown}/>

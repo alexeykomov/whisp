@@ -40,18 +40,9 @@ whisp.ui.MessageBox = React.createClass({
     this.textArea_.setMinHeight(whisp.ui.MessageBox.MIN_MESSAGEBOX_HEIGHT);
     this.textArea_.setMaxHeight(12 * whisp.ui.MessageBox.MIN_MESSAGEBOX_HEIGHT);
     this.textArea_.decorate(this.textAreaElement_.getDOMNode());
-
-    this.resizeListenerKey_ = goog.events.listen(this.textArea_.getElement(),
-        goog.events.EventType.TRANSITIONEND, this.onTextAreaResize_, false,
-        this);
-  },
-
-  onTextAreaResize_() {
-    //whisp.Store.dispatch(whisp.action.MessageBoxWasResizedAction.create());
   },
 
   componentWillUnmount() {
-    goog.events.unlistenByKey(this.resizeListenerKey_);
     this.textArea_.dispose();
     this.textAreaElement_ = null;
   },
