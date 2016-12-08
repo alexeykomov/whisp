@@ -116,6 +116,7 @@ whisp.ui.MainBody = React.createClass({
 
         <whisp.ui.MainPane messages={this.getStoreState().messages}
                            currentMessageDraft={this.getStoreState().currentMessageDraft}
+                           messagesShouldBeScrolledDown={this.getStoreState().messagesShouldBeScrolledDown}
                            activeSidePaneType={this.getStoreState().activeSidePaneType}
                            currentThreadId={this.getStoreState().currentThreadId}
                            contacts={this.getStoreState().contacts}

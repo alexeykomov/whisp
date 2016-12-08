@@ -27,6 +27,8 @@ whisp.reducer.openThreadFromThreads = (aOldState, aOpenThreadFromThreadsAction) 
   const newThreadId = aOpenThreadFromThreadsAction.threadId;
 
   newStatePart.currentThreadId = newThreadId;
+  newStatePart.messagesShouldBeScrolledDown = true;
+
   //Cache previous thread.
   newStatePart.messages = aOldState[`cached-messages-${
       newThreadId}`] || [];

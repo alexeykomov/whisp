@@ -15,6 +15,7 @@ goog.require('goog.array');
 goog.require('whisp.action.SendMessageAction');
 goog.require('whisp.Store');
 goog.require('whisp.ui.MessageBox');
+goog.require('goog.dom');
 
 
 /**
@@ -28,7 +29,8 @@ whisp.ui.MessageBar = React.createClass({
 
   getDefaultProps() {
     return {
-      currentMessageDraft: ''
+      currentMessageDraft: '',
+      currentThreadId: '',
     }
   },
 
@@ -57,6 +59,10 @@ whisp.ui.MessageBar = React.createClass({
     if (!whisp.TOUCH) {
       this.messageBoxFocus();
     }
+  },
+
+  componentWillUnmount() {
+    this.messageBox_ = null;
   },
 
   dispatchSendMessage: function () {

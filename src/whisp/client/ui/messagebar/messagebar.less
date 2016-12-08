@@ -1,0 +1,28 @@
+/*
+ * Copyright (c) 2013. Reflect, Alex K.
+ */
+
+/* Author:alexeykcontact@gmail.com (Alex K.) */
+
+.messagebar > .toolbar-inner {
+  position: static;
+  padding: 0;
+}
+
+.toolbar.messagebar {
+  height: auto;
+
+  .flex-order-alt(0);
+  .flex-grow-alt(0);
+  .flex-shrink-alt(1);
+  .flex-basis-alt(20px);
+  .align-self-alt(auto);
+
+  background: @white;
+  button.link.send-message {
+    line-height: @toolbarSize;
+    height: 100%;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

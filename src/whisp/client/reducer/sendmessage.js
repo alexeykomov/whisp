@@ -40,6 +40,8 @@ whisp.reducer.sendMessage = (aOldState, aSendMessageAction) => {
     threadToUpdate.setLastMessagePreview(goog.string.truncate(messageText, 100));
 
     newStatePart.currentMessageDraft = '';
+
+    newStatePart.messagesShouldBeScrolledDown = true;
   }
 
   return Object.assign({}, aOldState, newStatePart);

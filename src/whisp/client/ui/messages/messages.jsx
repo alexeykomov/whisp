@@ -16,22 +16,26 @@ goog.require('whisp.action.SendMessageAction');
 goog.require('whisp.Store');
 
 
+
 /**
  */
 whisp.ui.Messages = React.createClass({
   propTypes: {
     // List of contacts.
     messages: React.PropTypes.array.isRequired,
+    messagesShouldBeScrolledDown: React.PropTypes.bool.isRequired,
   },
 
   getDefaultProps() {
     return {
-      messages: []
+      messages: [],
+      messagesShouldBeScrolledDown: true,
     }
   },
-
+  
   shouldComponentUpdate(aProps, aState) {
-    return aProps.messages !== this.props.messages
+    return aProps.messages !== this.props.messages ||
+        aProps.messagesShouldBeScrolledDown;
   },
 
   /**
@@ -103,20 +107,34 @@ whisp.ui.Messages = React.createClass({
     </div>
   },
 
-  componentDidUpdate() {
-    //TODO(alexk): only jump to the end if message was yours.
+  scrollDown() {
     const messagesFrame = this.messagesFrame_.getDOMNode();
     messagesFrame.scrollTop = messagesFrame.scrollHeight;
+  },
+
+  componentDidMount() {
+    this.scrollDown();
+  },
+
+  componentDidUpdate() {
+    if (this.props.messagesShouldBeScrolledDown) {
+      this.scrollDown();
+    }
   },
 
   componentWillUnmount() {
     this.messagesFrame_ = null;
   },
 
+  onScroll() {
+
+  },
+
   render() {
     return (
         <div className="page-content messages-content" ref={
-          aMessagesFrame => this.messagesFrame_ = aMessagesFrame}>
+          aMessagesFrame => this.messagesFrame_ = aMessagesFrame}
+             onScroll={this.onScroll}>
           <div className="messages messages-auto-layout">
             {
               this.prepareForUi(this.props.messages).map(
