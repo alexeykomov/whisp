@@ -12,73 +12,42 @@
 /**
  * Module dependencies.
  */
-import * as express_ from 'express';
-import * as appConfig from './config/appconfig';
-import * as path_ from 'path';
-import * as favicon_ from 'serve-favicon';
-import * as connect_ from 'connect';
-import * as methodOverride_ from 'method-override';
-import * as cookieParser_ from 'cookie-parser';
-import * as flash_ from 'connect-flash';
-import * as expressSession_ from 'express-session';
-import * as passport_ from 'passport';
-import * as http_ from 'http';
-import * as bodyParser_ from 'body-parser';
-import * as compression_ from 'compression';
-import * as errorHandler_ from 'errorhandler';
+import { APP_PORT, REDIS_PORT, REDIS_SERVER, APP_URL, LOGIN_URL, COOKIE_AGE,
+    SECRET } from './predefined';
 import { install } from 'source-map-support';
 import * as routesView from './routes/view';
-const express = express_.default;
-const path = path_.default;
-const favicon = favicon_.default;
-const connect = connect_.default;
-const methodOverride = methodOverride_.default;
-const cookieParser = cookieParser_.default;
-const flash = flash_.default;
-const expressSession = expressSession_.default;
-const passport = passport_.default;
-const http = http_.default;
-const bodyParser = bodyParser_.default;
-const compression = compression_.default;
-const errorHandler = errorHandler_.default;
+import { connection } from './db/connection';
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const connect = require('connect');
+const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+const expressSession = require('express-session');
+const passport = require('passport');
+const http = require('http');
+const bodyParser = require('body-parser');
+const compression = require('compression');
+const errorHandler = require('errorhandler');
+const r = require('rethinkdb');
+const P = require('bluebird');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const log = log;
+import { passwordlessMiddlware } from 'middleware/passwordless';
+import { applyMiddlwares } from 'middleware/index';
+import { applyRoutes } from 'routes/index';
 install();
 
-const COOKIE_AGE = 3600000 * 24 * 365 * 3;
-const SECRET = 'whisp_apritaionpg391u2390457asdhf2195ghapigf';
 
 const app = express();
 
 //Middleware.
-app.set('port', appConfig.APP_PORT);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.set('env', process.env.NODE_ENV === 'production' ? 'production' :
-    'development');
-app.use(favicon(path.join(__dirname, './favicon.ico')));
-app.use(bodyParser.json());
-app.use(compression());
-app.use(methodOverride());
-app.use(cookieParser(SECRET));
-app.use(expressSession({
-  cookie: {
-    maxAge: COOKIE_AGE
-  },
-  resave: false,
-  saveUninitialized: true,
-  secret: SECRET
-}));
-app.use(flash());
-app.use(passport.initialize());
-app.use(passport.session());
-app.use('/static', express.static(path.join(__dirname, '..', 'client')));
-
-//Development only routes.
-if ('development' == app.get('env')) {
-  app.locals.pretty = true;
-}
+applyMiddlwares(app);
 
 //Routes.
-app.get('/', routesView.render);
+applyRoutes(app);
 
 //Error handling middleware should be loaded after the loading the routes.
 if ('development' == app.get('env')) {

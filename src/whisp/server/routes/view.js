@@ -10,7 +10,7 @@
 
 import * as appConfig from '../config/appconfig';
 import { STATIC_DIR } from '../util/pagehelper';
-import { install } from 'source-map-support';
+const install  = require('source-map-support');
 const log = appConfig.log;
 install();
 
