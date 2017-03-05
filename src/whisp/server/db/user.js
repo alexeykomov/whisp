@@ -4,7 +4,7 @@
 
 /**
  * @fileoverview DB interaction - settings DAO.
- * @author alexeykofficial@gmail.com (Alex K.)
+ * @author alexeykcontact@gmail.com (Alex K.)
  */
 
 const { TableName } = require('./constants');
@@ -15,23 +15,22 @@ const { getEntity, insertEntity } = require('./entity');
  * Saves settings.
  * @param {Object} aSettingsJSON JSON representing settings.
  */
-async function getUserById(aId) {
+async function selectUser(aId) {
   return getEntity(aId, TableName.USER);
 }
 
 
 /**
- * Saves settings.
- * @param {Object} aSettingsJSON JSON representing settings.
+ * @param {string} aEmail.
+ * @return {Promise.<Object>}
  */
-async function getUserByEmail(aEmail) {
+async function selectUserByEmail(aEmail) {
   return getEntity(aEmail, TableName.USER);
 }
 
 
 /**
- * Saves settings.
- * @param {Object} aSettingsJSON JSON representing settings.
+ * @param {Object} aUser.
  */
 async function insertUser(aUser) {
   const id  = await insertEntity(aUser, TableName.USER);
@@ -43,12 +42,14 @@ async function insertUser(aUser) {
  * Saves settings.
  * @param {Object} aSettingsJSON JSON representing settings.
  */
-async function saveUser(aSettingsJSON) {
+async function updateUser(aSettingsJSON) {
   return saveEntity(aSettingsJSON, TableName.SETTINGS);
 }
 
 
 module.exports = {
-  saveUser,
-  getUser,
+  updateUser,
+  selectUser,
+  selectUserByEmail,
+  insertUser,
 };

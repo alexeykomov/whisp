@@ -8,13 +8,11 @@
 
 
 const {
-    APP_PORT,
     REDIS_PORT,
     REDIS_SERVER,
-    APP_URL,
-    LOGIN_URL,
     COOKIE_AGE,
-    SECRET
+    SECRET,
+    logger,
 } = require('../predefined');
 const express = require('express');
 const path = require('path');
@@ -30,8 +28,8 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const log = log;
 const { passwordless } = require('./passwordless');
+const { associateUser } = require('./associateuser');
 
 
 function* middlewares() {
@@ -58,7 +56,9 @@ function* middlewares() {
   yield ['/static', express.static(path.join(__dirname, '..', 'client'))];
   yield passwordless.sessionSupport();
   yield passwordless.acceptToken({ successRedirect: '/'});
+  yield associateUser;
 }
+
 
 function applyMiddleware(aApp, aMiddleware) {
   if (Array.isArray(aMiddleware)) {
@@ -68,9 +68,11 @@ function applyMiddleware(aApp, aMiddleware) {
   }
 }
 
+
 function applyMiddlewares(aApp) {
   [...middlewares()].forEach(aMiddleware => applyMiddleware(aApp, aMiddleware));
 }
+
 
 module.exports = {
   applyMiddlewares,

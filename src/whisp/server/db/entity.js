@@ -3,8 +3,8 @@
  */
 
 /**
- * @fileoverview DB interaction - settings DAO.
- * @author alexeykofficial@gmail.com (Alex K.)
+ * @fileoverview Generic db functions.
+ * @author alexeykcontact@gmail.com (Alex K.)
  */
 
 

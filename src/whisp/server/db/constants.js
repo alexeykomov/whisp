@@ -3,8 +3,8 @@
  */
 
 /**
- * @fileoverview DB interaction - settings DAO.
- * @author alexeykofficial@gmail.com (Alex K.)
+ * @fileoverview Table names.
+ * @author alexeykcontact@gmail.com (Alex K.)
  */
 
 
@@ -12,7 +12,6 @@ const TableName = {
   SETTINGS: 'SETTINGS',
   KEY: 'KEY',
   MESSAGE: 'MESSAGE',
-  CONTACT: 'CONTACT',
   USER: 'USER',
 };
 

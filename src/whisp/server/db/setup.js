@@ -4,7 +4,7 @@
 
 /**
  * @fileoverview DB setup.
- * @author alexeykofficial@gmail.com (Alex K.)
+ * @author alexeykcontact@gmail.com (Alex K.)
  */
 
 
@@ -22,11 +22,13 @@ async function setup() {
     const conn = await connection;
     const existingTables = await r.db(DB_NAME).tableList().run(conn);
 
-    const tableCreateAttempts = Object.keys(TableName).forEach(aTableName => {
+    const tableCreateAttempts = Object.keys(TableName).map(aTableName => {
       return async () => {
         if (existingTables.indexOf(aTableName) < 0) {
           const tableCreateResult = await r.db(DB_NAME).tableCreate(aTableName);
           logger.log(`Table ${aTableName} wasn't existing and was created.`);
+        } else {
+          logger.log(`Table ${aTableName} was existing and was skipped.`);
         }
       }
     });
@@ -34,7 +36,7 @@ async function setup() {
     await Promise.all(tableCreateAttempts);
     logger.log('All tables were created.');
   } catch (e) {
-    logger(e);
+    logger.error(e);
   }
 }
 

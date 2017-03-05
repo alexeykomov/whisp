@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message User {
+  string id = 1;
+  string email = 2;
+  string vk_id = 3;
+  string facebook_id = 4;
+  string first_name = 5;
+  string middle_name = 6;
+  string last_name = 7;
+}

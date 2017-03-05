@@ -3,31 +3,37 @@
  */
 
 /**
- * @fileoverview Main view.
+ * @fileoverview View routes.
  * @author alexeykcontact@gmail.com (Alex K.)
  */
 
 
-* as appConfig from '../config/appconfig';
-{ STATIC_DIR } from '../util/pagehelper';
-const install  = require('source-map-support');
-const log = appConfig.log;
-install();
+const { selectUser } = require('../db/user');
+const { logger } = require('../predefined');
 
 
 /**
- * Renders main page for compiled view.
+ * Saves user.
  */
-function render(req, res) {
-  res.render('main', {
-    processed: true,
-    staticDir: STATIC_DIR,
-
-    jsFileNames: ['output-compiled-ui.js'],
-    cssFileNames: ['output-compiled.css'],
-    // Late modules are all js files except first one.
-    modules: JSON.stringify([].slice(1)),
-    languageNames: JSON.stringify([]),
-    user: JSON.stringify({}, null, ' ')
-  });
+async function render(req, res) {
+  try {
+    const user = await selectUser(req.user.id);
+    res.render('main', {
+      jsFileNames: ['output-compiled-ui.js'],
+      cssFileNames: ['output-compiled.css'],
+      // Late modules are all js files except first one.
+      modules: JSON.stringify([].slice(1)),
+      languageNames: JSON.stringify([]),
+      user: JSON.stringify(user, null, ' '),
+    });
+  } catch (e) {
+    logger.error(e);
+    res.send(400);
+  }
 }
+
+
+module.exports = {
+  render,
+};
+

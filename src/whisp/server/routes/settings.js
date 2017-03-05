@@ -3,25 +3,29 @@
  */
 
 /**
- * @fileoverview Main view.
+ * @fileoverview Settings routes.
  * @author alexeykcontact@gmail.com (Alex K.)
  */
 
 
-* as appConfig from '../config/appconfig';
-{ STATIC_DIR } from '../util/pagehelper';
-const install  = require('source-map-support');
-const log = appConfig.log;
-install();
+const { updateUser } = require('../db/user');
+const { logger } = require('../predefined');
 
 
 /**
  * Saves user.
  */
-function save(req, res){
-  var onUserSave = function(aUserId) {
-    res.send(JSON.stringify(aUserId));
+async function save(req, res){
+  try {
+    await updateUser(req.body);
+    res.send(200);
+  } catch (e) {
+    logger.error(e);
+    res.send(400);
   }
+}
 
-  userDAO.saveUserAsync(req.body, onUserSave);
+
+module.exports = {
+  save,
 };
