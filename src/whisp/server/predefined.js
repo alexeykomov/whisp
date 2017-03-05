@@ -118,7 +118,7 @@ const DB_NAME = 'whisp';
 
 /**
  * @type {string}
- */
+ */gcm
 const SMTP_SERVER = 'smtp.gmail.com';
 
 
