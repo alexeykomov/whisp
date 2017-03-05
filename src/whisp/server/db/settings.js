@@ -7,39 +7,29 @@
  * @author alexeykofficial@gmail.com (Alex K.)
  */
 
-
-const r = require('rethinkdb');
-import { connection } from './connection';
-const P = require('bluebird');
-import { DB_NAME } from '../predefined';
-
-
-const SETTINGS_TABLE = 'settings';
+const { TableName } = require('./constants');
+const { getEntity, saveEntity } = require('./entity');
 
 
 /**
- * Loads settings.
- * @param {function(Object)} aOnSettingsLoad Callback that will be executed
- * when db request is ready.
+ * Saves settings.
+ * @param {Object} aSettingsJSON JSON representing settings.
  */
-export function getSettings(aOnSettingsLoad) {
+async function getSettings(aSettingsJSON) {
+  return getEntity(aSettingsJSON, TableName.SETTINGS);
 }
 
 
 /**
  * Saves settings.
  * @param {Object} aSettingsJSON JSON representing settings.
- * @param {function(string|number)} aOnSettingsSave Callback that will be
- * called when db request is ready.
  */
-export function saveSettingsAsync(aSettingsJSON, aOnSettingsSave){
-  let conn;
-  connection.then(aConn => {
-    conn = aConn;
-    return r.db(DB_NAME).tableCreate(SETTINGS_TABLE).run(aConn);
-  }).then(result => {
-    return r.db(DB_NAME).table(SETTINGS_TABLE).insert(aSettingsJSON).run(conn);
-  }).catch(error => {
-    throw error;
-  });
+async function saveSettings(aSettingsJSON) {
+  return saveEntity(aSettingsJSON, TableName.SETTINGS);
 }
+
+
+module.exports = {
+  saveSettings,
+  getSettings,
+};

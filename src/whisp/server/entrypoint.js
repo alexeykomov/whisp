@@ -12,39 +12,19 @@
 /**
  * Module dependencies.
  */
-import { APP_PORT, REDIS_PORT, REDIS_SERVER, APP_URL, LOGIN_URL, COOKIE_AGE,
-    SECRET } from './predefined';
-import { install } from 'source-map-support';
-import * as routesView from './routes/view';
-import { connection } from './db/connection';
+const { logger } = require('./predefined');
 const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const connect = require('connect');
-const methodOverride = require('method-override');
-const cookieParser = require('cookie-parser');
-const flash = require('connect-flash');
-const expressSession = require('express-session');
-const passport = require('passport');
 const http = require('http');
-const bodyParser = require('body-parser');
-const compression = require('compression');
 const errorHandler = require('errorhandler');
-const r = require('rethinkdb');
 const P = require('bluebird');
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
-const log = log;
-import { passwordlessMiddlware } from 'middleware/passwordless';
-import { applyMiddlwares } from 'middleware/index';
-import { applyRoutes } from 'routes/index';
-install();
+const { applyRoutes } = require('routes/index');
+const { applyMiddlewares } = require('middleware/index');
 
 
 const app = express();
 
 //Middleware.
-applyMiddlwares(app);
+applyMiddlewares(app);
 
 //Routes.
 applyRoutes(app);
@@ -55,6 +35,16 @@ if ('development' == app.get('env')) {
 }
 
 //Start an application.
-http.createServer(app).listen(app.get('port'), () => {
-  console.log('Express server listening on port ' + app.get('port'));
-});
+async function startup() {
+  try {
+    await Promise.all([
+      P.promisify(http.createServer(app).listen)(app.get('port')),
+      setup()
+    ]);
+    logger.log('Express server listening on port ' + app.get('port'));
+  } catch (e) {
+    logger.log(e);
+  }
+}
+
+startup();

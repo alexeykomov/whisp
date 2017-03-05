@@ -9,9 +9,14 @@
 
 
 const r = require('rethinkdb');
-import { DB_SERVER as host, DB_NAME, DB_PORT as port} from '../predefined'
+const { DB_SERVER, DB_NAME, DB_PORT} = require('../predefined');
 const P = require('bluebird');
 
 
-export const connection = P.promisify(r.connect)({host, port});
+const connection = P.promisify(r.connect)({DB_SERVER, DB_PORT});
+
+
+module.exports = {
+  connection,
+};
 

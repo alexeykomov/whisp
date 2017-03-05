@@ -8,8 +8,8 @@
  */
 
 
-import * as appConfig from '../config/appconfig';
-import { STATIC_DIR } from '../util/pagehelper';
+* as appConfig from '../config/appconfig';
+{ STATIC_DIR } from '../util/pagehelper';
 const install  = require('source-map-support');
 const log = appConfig.log;
 install();
@@ -18,7 +18,7 @@ install();
 /**
  * Renders main page for compiled view.
  */
-export function render(req, res) {
+function render(req, res) {
   res.render('main', {
     processed: true,
     staticDir: STATIC_DIR,

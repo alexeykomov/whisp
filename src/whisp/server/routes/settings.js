@@ -8,8 +8,8 @@
  */
 
 
-import * as appConfig from '../config/appconfig';
-import { STATIC_DIR } from '../util/pagehelper';
+* as appConfig from '../config/appconfig';
+{ STATIC_DIR } from '../util/pagehelper';
 const install  = require('source-map-support');
 const log = appConfig.log;
 install();
@@ -18,7 +18,7 @@ install();
 /**
  * Saves user.
  */
-export function save(req, res){
+function save(req, res){
   var onUserSave = function(aUserId) {
     res.send(JSON.stringify(aUserId));
   }

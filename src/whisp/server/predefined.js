@@ -9,120 +9,130 @@
 
 
 const winston = require('winston');
-import { install } from 'source-map-support';
 const fs = require('fs');
 const path = require('path');
-install();
 
 
 /**
  * Host of db.
  * @type {string}
  */
-export const DB_SERVER = 'localhost';
+const DB_SERVER = 'localhost';
 
 
 /**
  * Port of db.
  * @type {number}
  */
-export const DB_PORT = 28015;
+const DB_PORT = 28015;
 
 
 /**
  * Port of Redis instance.
  * @type {number}
  */
-export const REDIS_SERVER = 'localhost';
+const REDIS_SERVER = 'localhost';
 
 
 /**
  * Port of Redis instance.
  * @type {number}
  */
-export const REDIS_PORT = 6379;
+const REDIS_PORT = 6379;
 
 
 /**
  * Port of application.
  * @type {number}
  */
-export const APP_PORT = process.env.NODE_ENV === 'production' ? 80 : 3001;
+const APP_PORT = process.env.NODE_ENV === 'production' ? 80 : 3001;
 
 
 /**
  * URL of app.
  * @type {string}
  */
-export const APP_URL = 'http://localhost:3002';
+const APP_URL = 'http://localhost:3002';
 
 
 /**
  * URL of login form.
  * @type {string}
  */
-export const LOGIN_URL = `${APP_URL}/login`;
+const LOGIN_URL = `${APP_URL}/login`;
 
 
 /**
  * URL of login form.
  * @type {string}
  */
-export const LOGOUT_URL = `${APP_URL}/logout`;
+const LOGOUT_URL = `${APP_URL}/logout`;
 
 
 /**
  * @type {number}
  */
-export const COOKIE_AGE = 3600000 * 24 * 365 * 3;
+const COOKIE_AGE = 3600000 * 24 * 365 * 3;
 
 
 /**
  * @type {string}
  */
-export const SECRET = 'ahNgahbouVooTew6';
+const SECRET = 'ahNgahbouVooTew6';
 
 
 /**
  * Whether to use oauth authentication. If false, fallback to local strategy.
  * @type {boolean}
  */
-export const USE_OAUTH = true;
+const USE_OAUTH = true;
 
 
 /**
  * Whether to use passwordless authentication.
  * @type {boolean}
  */
-export const USE_PASSWORDLESS = true;
+const USE_PASSWORDLESS = true;
 
 
 /**
  * Whether to use local authentication. If false, fallback to guest mode.
  * @type {boolean}
  */
-export const USE_LOCAL_AUTH = false;
+const USE_LOCAL_AUTH = false;
 
 
 /**
  * Whether app is in production.
  * @type {boolean}
  */
-export const PRODUCTION = process.env.NODE_ENV === 'production';
+const PRODUCTION = process.env.NODE_ENV === 'production';
 
 
 /**
  * Name of db.
  * @type {string}
  */
-export const DB_NAME = 'whisp';
+const DB_NAME = 'whisp';
+
+
+/**
+ * @type {string}
+ */
+const SMTP_SERVER = 'smtp.gmail.com';
+
+
+/**
+ * @type {string}
+ */
+const SMTP_PORT = 465;
 
 
 /**
  * List of locales.
  * @type {Array.<string>}
  */
-export const LOCALES = ['en', 'ru', 'by', 'fr'];
+const LOCALES = ['en', 'ru', 'by', 'fr'];
 
 
 /**
@@ -134,7 +144,7 @@ winston.level = 'debug';
 winston.add(winston.transports.File, { filename: LOG_FILE });
 winston.add(winston.transports.Console);
 
-export const log = winston;
+const logger = winston;
 
 
 const credsObject = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..',
@@ -143,7 +153,7 @@ const credsObject = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..',
 /**
  * Mail options.
  */
-export const MAIL_OPTIONS = {
+const MAIL_OPTIONS = {
   from: credsObject.fullUsername,
   to: '',
   subject: '',
@@ -152,7 +162,32 @@ export const MAIL_OPTIONS = {
 };
 
 
-export const MAILER_CREDENTIALS = {
+const MAILER_CREDENTIALS = {
   user: credsObject.username,
   pass: credsObject.password
+};
+
+
+module.exports = {
+  DB_SERVER,
+  DB_PORT,
+  REDIS_SERVER,
+  REDIS_PORT,
+  APP_PORT,
+  APP_URL,
+  LOGIN_URL,
+  LOGOUT_URL,
+  COOKIE_AGE,
+  SECRET,
+  USE_OAUTH,
+  USE_PASSWORDLESS,
+  USE_LOCAL_AUTH,
+  PRODUCTION,
+  DB_NAME,
+  LOCALES,
+  logger,
+  MAIL_OPTIONS,
+  MAILER_CREDENTIALS,
+  SMTP_SERVER,
+  SMTP_PORT,
 };

@@ -7,9 +7,15 @@
  */
 
 
-import { APP_PORT, REDIS_PORT, REDIS_SERVER, APP_URL, LOGIN_URL, COOKIE_AGE,
-  SECRET } from '../predefined';
-import { install } from 'source-map-support';
+const {
+    APP_PORT,
+    REDIS_PORT,
+    REDIS_SERVER,
+    APP_URL,
+    LOGIN_URL,
+    COOKIE_AGE,
+    SECRET
+} = require('../predefined');
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -25,11 +31,10 @@ const compression = require('compression');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const log = log;
-import { passwordless } from './passwordless';
-install();
+const { passwordless } = require('./passwordless');
 
 
-export function* middlewares() {
+function* middlewares() {
   yield favicon(path.join(__dirname, './favicon.ico'));
   yield bodyParser.json();
   yield compression();
@@ -52,10 +57,10 @@ export function* middlewares() {
   yield passport.session();
   yield ['/static', express.static(path.join(__dirname, '..', 'client'))];
   yield passwordless.sessionSupport();
-  yield passwordless.acceptToken();
+  yield passwordless.acceptToken({ successRedirect: '/'});
 }
 
-function applyMiddlware(aApp, aMiddleware) {
+function applyMiddleware(aApp, aMiddleware) {
   if (Array.isArray(aMiddleware)) {
     aApp.use.apply(aApp, aMiddleware);
   } else {
@@ -63,6 +68,10 @@ function applyMiddlware(aApp, aMiddleware) {
   }
 }
 
-export function applyMiddlwares(aApp) {
-  [...middlewares()].forEach(aMiddleware => applyMiddlware(aApp, aMiddleware));
+function applyMiddlewares(aApp) {
+  [...middlewares()].forEach(aMiddleware => applyMiddleware(aApp, aMiddleware));
 }
+
+module.exports = {
+  applyMiddlewares,
+};

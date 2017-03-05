@@ -7,42 +7,39 @@
  */
 
 
-const passwordlessMw = require('passwordless');
-const createTransport = require('nodemailer');
-import { APP_URL, MAIL_OPTIONS, MAILER_CREDENTIALS, log, REDIS_SERVER,
-    REDIS_PORT } from '../predefined';
+const passwordless = require('passwordless');
+const { MAILER_CREDENTIALS, logger, REDIS_SERVER,
+    REDIS_PORT, SMTP_SERVER, SMTP_PORT } = require('../predefined');
 const P = require('bluebird');
-import { log } from '../predefined';
 const RedisStore = require('passwordless-redisstore');
+const email = require('emailjs');
 
 
-passwordlessMw.init(new RedisStore(REDIS_PORT, REDIS_SERVER));
+passwordless.init(new RedisStore(REDIS_PORT, REDIS_SERVER));
 
-const transporter = createTransport({
-  service: 'Gmail',
-  auth: MAILER_CREDENTIALS
+const smtpServer  = email.server.connect({
+  user:    MAILER_CREDENTIALS.fullUsername,
+  password: MAILER_CREDENTIALS.password,
+  host:    `${SMTP_SERVER}:${SMTP_PORT}`,
+  ssl:     true
 });
 
-passwordlessMw.addDelivery((aTokenToSend, aUidToSend, aUserTo, aCallback) => {
-  const mailOptions = Object.assign({}, MAIL_OPTIONS, {
-    to: aUserTo,
-    subject: message,
-    text: `'Hello!
-    
-    Access your account here: http://${APP_URL}?token=${aTokenToSend}&uid=${
-        encodeURIComponent(aUidToSend)}`,
-    /*html: ''*/
+passwordless.addDelivery((tokenToSend, uidToSend, recipient, callback) => {
+  smtpServer.send({
+    text: `Hello!\nAccess your account here: http://${
+        host}'?token=${tokenToSend}&uid=${
+        encodeURIComponent(uidToSend)}`,
+    from: MAILER_CREDENTIALS.fullUsername,
+    to: recipient,
+    subject: 'Token for Whisp'
+  }, (err, message) => {
+    if (err) {
+      logger.log(err);
+    }
+    callback(err);
   });
-
-  P.promisify(transporter.sendMail, {
-    context: tranporter
-  })(mailOptions).then(() => {
-    log.debug('Mail was sent.');
-    aCallback();
-  }).catch(aError => {
-    log.error(`Mail wasn't sent: ${aError}.`)
-    aCallback(aError);
-  })
 });
 
-export const passwordless = passwordlessMw;
+module.exports = {
+  passwordless
+};
