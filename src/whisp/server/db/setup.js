@@ -11,7 +11,7 @@
 const r = require('rethinkdb');
 const { connection } = require('./connection');
 const { logger, DB_NAME } = require('../predefined');
-const { TableName } = require('./constants');
+const TableName = require('./tables');
 
 
 /**

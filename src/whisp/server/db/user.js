@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013. Rflect, Alex K.
+ * Copyright (c) 2013. Reflect, Alex K.
  */
 
 /**
@@ -7,16 +7,21 @@
  * @author alexeykcontact@gmail.com (Alex K.)
  */
 
-const { TableName } = require('./constants');
-const { getEntity, insertEntity } = require('./entity');
+const { USER } = require('./tables');
+const { selectEntity, insertEntity, updateEntity } = require('./entity');
+const { DB_NAME, logger } = require('../predefined');
+const { proto: { User }} = require('../../../src/proto/commonjs/user_pb');
+const { fieldNameFromGetter } = require('../helpers/string');
+const { connection } = require('./connection');
+const r = require('rethinkdb');
 
 
 /**
  * Saves settings.
- * @param {Object} aSettingsJSON JSON representing settings.
+ * @param {Object} aId User id.
  */
 async function selectUser(aId) {
-  return getEntity(aId, TableName.USER);
+  return selectEntity(aId, USER);
 }
 
 
@@ -25,7 +30,16 @@ async function selectUser(aId) {
  * @return {Promise.<Object>}
  */
 async function selectUserByEmail(aEmail) {
-  return getEntity(aEmail, TableName.USER);
+  const emailKeyName = fieldNameFromGetter(User.prototype.getEmail.name);
+  try {
+    const conn = await connection;
+    const users = await r.db(DB_NAME).table(USER).filter({
+          [emailKeyName]: aEmail
+        }).run(conn);
+    return users;
+  } catch (e) {
+    logger.log(e);
+  }
 }
 
 
@@ -33,7 +47,7 @@ async function selectUserByEmail(aEmail) {
  * @param {Object} aUser.
  */
 async function insertUser(aUser) {
-  const id  = await insertEntity(aUser, TableName.USER);
+  const id  = await insertEntity(aUser, USER);
   return id;
 }
 
@@ -43,7 +57,7 @@ async function insertUser(aUser) {
  * @param {Object} aSettingsJSON JSON representing settings.
  */
 async function updateUser(aSettingsJSON) {
-  return saveEntity(aSettingsJSON, TableName.SETTINGS);
+  return updateEntity(aSettingsJSON, USER);
 }
 
 

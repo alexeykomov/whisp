@@ -10,20 +10,20 @@
 
 const r = require('rethinkdb');
 const { connection } = require('./connection');
-const { DB_NAME } = require('../predefined');
+const { DB_NAME, logger } = require('../predefined');
 
 
 /**
- * Saves entity.
- * @param {Object} aBody JSON representing condition.
+ * Selects entity.
+ * @param {Object} aId Primary key.
  * @param {string} aTableName
  * @return {Promise} Result
  */
-async function getEntity(aBody, aTableName) {
+async function selectEntity(aId, aTableName) {
   try {
     const conn = await connection;
     const getResult = await r.db(DB_NAME).table(aTableName)
-        .select(aBody).run(conn);
+        .get(aId).run(conn);
     return getResult;
   } catch (e) {
     logger.log(e);
@@ -32,8 +32,8 @@ async function getEntity(aBody, aTableName) {
 
 
 /**
- * Saves entity.
- * @param {Object} aBody JSON representing entity.
+ * Inserts entity.
+ * @param {Object} aBody Object representing entity.
  * @param {string} aTableName
  * @return {Promise} Result
  */
@@ -41,7 +41,7 @@ async function insertEntity(aBody, aTableName) {
   try {
     const conn = await connection;
     const { generated_keys: [ primaryKey ] = [] } = await r.db(DB_NAME)
-        .table(aTableName).insert(aBody).run(conn);
+        .table(aTableName).insert(aBody).run(conn) || {};
     return primaryKey;
   } catch (e) {
     logger.log(e);
@@ -50,7 +50,8 @@ async function insertEntity(aBody, aTableName) {
 
 
 /**
- * Saves entity.
+ * Updates entity.
+ * @param {Object} aId JSON representing entity.
  * @param {Object} aBody JSON representing entity.
  * @param {string} aTableName
  * @return {Promise} Result
@@ -59,7 +60,7 @@ async function updateEntity(aId, aBody, aTableName) {
   try {
     const conn = await connection;
     const insertResult = await r.db(DB_NAME).table(aTableName)
-        .insert(aBody).run(conn);
+        .get(aId).insert(aBody).run(conn);
     return insertResult;
   } catch (e) {
     logger.log(e);
@@ -67,7 +68,7 @@ async function updateEntity(aId, aBody, aTableName) {
 }
 
 module.exports = {
-  saveEntity,
+  selectEntity,
   insertEntity,
   updateEntity,
 };

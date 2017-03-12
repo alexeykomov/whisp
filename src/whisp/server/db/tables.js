@@ -16,6 +16,4 @@ const TableName = {
 };
 
 
-module.exports = {
-  TableName,
-};
+module.exports = TableName;

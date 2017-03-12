@@ -11,7 +11,7 @@
 const {logger} = require('../predefined');
 const { passwordless } = require('../middleware/passwordless');
 const { insertUser, selectUserByEmail } = require('../db/user');
-const { proto: { User }} = require('../../../src/proto/commonjs/contact_pb');
+const { proto: { User }} = require('../../../src/proto/commonjs/user_pb');
 
 
 /**
