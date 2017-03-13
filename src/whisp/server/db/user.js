@@ -10,7 +10,7 @@
 const { USER } = require('./tables');
 const { selectEntity, insertEntity, updateEntity } = require('./entity');
 const { DB_NAME, logger } = require('../predefined');
-const { proto: { User }} = require('../../../src/proto/commonjs/user_pb');
+const User = require('../../../src/proto/commonjs/user_pb').User;
 const { fieldNameFromGetter } = require('../helpers/string');
 const { connection } = require('./connection');
 const r = require('rethinkdb');
@@ -18,7 +18,7 @@ const r = require('rethinkdb');
 
 /**
  * Saves settings.
- * @param {Object} aId User id.
+ * @param {string} aId User id.
  */
 async function selectUser(aId) {
   return selectEntity(aId, USER);
@@ -27,7 +27,7 @@ async function selectUser(aId) {
 
 /**
  * @param {string} aEmail.
- * @return {Promise.<Object>}
+ * @return {Promise.<proto.User>}
  */
 async function selectUserByEmail(aEmail) {
   const emailKeyName = fieldNameFromGetter(User.prototype.getEmail.name);
@@ -36,7 +36,7 @@ async function selectUserByEmail(aEmail) {
     const users = await r.db(DB_NAME).table(USER).filter({
           [emailKeyName]: aEmail
         }).run(conn);
-    return users;
+    return User.fromObject(users[0]);
   } catch (e) {
     logger.log(e);
   }
@@ -44,20 +44,20 @@ async function selectUserByEmail(aEmail) {
 
 
 /**
- * @param {Object} aUser.
+ * @param {proto.User} aUser
  */
 async function insertUser(aUser) {
-  const id  = await insertEntity(aUser, USER);
+  const id  = await insertEntity(aUser.toObject(), USER);
   return id;
 }
 
 
 /**
  * Saves settings.
- * @param {Object} aSettingsJSON JSON representing settings.
+ * @param {proto.User} aUser
  */
-async function updateUser(aSettingsJSON) {
-  return updateEntity(aSettingsJSON, USER);
+async function updateUser(aUser) {
+  return updateEntity(aUser.toObject(), USER);
 }
 
 

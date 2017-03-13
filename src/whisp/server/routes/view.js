@@ -17,7 +17,7 @@ const { logger } = require('../predefined');
  */
 async function render(req, res) {
   try {
-    const user = await selectUser(req.user.id);
+    const user = await selectUser(req.user);
     res.render('main', {
       jsFileNames: ['output-compiled-ui.js'],
       cssFileNames: ['output-compiled.css'],

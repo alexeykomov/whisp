@@ -28,7 +28,7 @@ async function grantAccess(email, delivery, callback, req) {
     if (!user) {
       const user = new User();
       user.setEmail(email);
-      await insertUser(user.toObject());
+      await insertUser(user);
     }
     callback(null, email);
   } catch (e) {
