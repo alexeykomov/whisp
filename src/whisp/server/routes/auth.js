@@ -8,10 +8,10 @@
  */
 
 
-const {logger} = require('../predefined');
+const { logger } = require('../predefined');
 const { passwordless } = require('../middleware/passwordless');
 const { insertUser, selectUserByEmail } = require('../db/user');
-const { proto: { User }} = require('../../../src/proto/commonjs/user_pb');
+const User = require('../../../src/proto/commonjs/user_pb').User;
 
 
 /**

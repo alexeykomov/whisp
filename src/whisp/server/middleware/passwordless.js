@@ -34,7 +34,7 @@ passwordless.addDelivery((tokenToSend, uidToSend, recipient, callback) => {
     subject: 'Token for Whisp'
   }, (err, message) => {
     if (err) {
-      logger.log(err);
+      logger.info(err);
     }
     callback(err);
   });

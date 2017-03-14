@@ -20,24 +20,34 @@ const TableName = require('./tables');
 async function setup() {
   try {
     const conn = await connection;
-    const existingTables = await r.db(DB_NAME).tableList().run(conn);
+    const existingDbs = await r.dbList().run(conn);
+    if (!existingDbs.includes(DB_NAME)) {
+      await r.dbCreate(DB_NAME).run(conn);
+    }
 
-    const tableCreateAttempts = Object.keys(TableName).map(aTableName => {
-      return async () => {
-        if (existingTables.indexOf(aTableName) < 0) {
-          const tableCreateResult = await r.db(DB_NAME).tableCreate(aTableName);
-          logger.log(`Table ${aTableName} wasn't existing and was created.`);
-        } else {
-          logger.log(`Table ${aTableName} was existing and was skipped.`);
-        }
-      }
-    });
-
-    await Promise.all(tableCreateAttempts);
-    logger.log('All tables were created.');
+    await createTables(conn);
+    logger.info('All tables were created.');
   } catch (e) {
     logger.error(e);
   }
+}
+
+
+async function createTables(conn) {
+  const existingTables = await r.db(DB_NAME).tableList().run(conn);
+
+  const tableCreateAttempts = Object.keys(TableName).map(aTableName => {
+    return async() => {
+      if (!existingTables.includes(aTableName)) {
+        const tableCreateResult = await r.db(DB_NAME).tableCreate(aTableName);
+        logger.info(`Table ${aTableName} wasn't existing and was created.`);
+      } else {
+        logger.info(`Table ${aTableName} was existing and was skipped.`);
+      }
+    }
+  });
+
+  return Promise.all(tableCreateAttempts);
 }
 
 

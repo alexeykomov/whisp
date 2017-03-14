@@ -22,14 +22,14 @@ function applyRoutes(app) {
   }
 
   //Routes.
+  app.get(APP_URL, ensureAuthenticated, routesView.render);
+  app.get(LOGIN_URL, (req, res) => res.redirect(LOGIN_URL));
   app.post(`${APP_URL}/sendtoken`, routesAuth.sendToken,
       (req, res) => res.render('sent'));
-  app.get(LOGIN_URL, (req, res) => res.redirect(LOGIN_URL));
   app.get(LOGOUT_URL, (req, res) => {
     req.logout();
     res.redirect(APP_URL);
   });
-  app.get(APP_URL, ensureAuthenticated, routesView.render);
   app.post('/settings/save', ensureAuthenticated, routesSettings.save);
 }
 

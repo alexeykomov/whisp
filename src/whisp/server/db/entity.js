@@ -26,7 +26,7 @@ async function selectEntity(aId, aTableName) {
         .get(aId).run(conn);
     return getResult;
   } catch (e) {
-    logger.log(e);
+    logger.info(e);
   }
 }
 
@@ -44,7 +44,7 @@ async function insertEntity(aBody, aTableName) {
         .table(aTableName).insert(aBody).run(conn) || {};
     return primaryKey;
   } catch (e) {
-    logger.log(e);
+    logger.info(e);
   }
 }
 
@@ -63,7 +63,7 @@ async function updateEntity(aId, aBody, aTableName) {
         .get(aId).insert(aBody).run(conn);
     return insertResult;
   } catch (e) {
-    logger.log(e);
+    logger.info(e);
   }
 }
 

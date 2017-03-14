@@ -38,7 +38,7 @@ async function selectUserByEmail(aEmail) {
         }).run(conn);
     return User.fromObject(users[0]);
   } catch (e) {
-    logger.log(e);
+    logger.info(e);
   }
 }
 

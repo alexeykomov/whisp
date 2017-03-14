@@ -33,7 +33,7 @@ const { associateUser } = require('./associateuser');
 
 
 function* middlewares() {
-  yield favicon(path.join(__dirname, './favicon.ico'));
+  yield favicon(path.join(__dirname, './../favicon.ico'));
   yield bodyParser.json();
   yield compression();
   yield methodOverride();

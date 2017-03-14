@@ -118,7 +118,7 @@ const DB_NAME = 'whisp';
 
 /**
  * @type {string}
- */gcm
+ */
 const SMTP_SERVER = 'smtp.gmail.com';
 
 
@@ -142,13 +142,11 @@ const LOG_FILE = '../../logs/info.log';
 
 winston.level = 'debug';
 winston.add(winston.transports.File, { filename: LOG_FILE });
-winston.add(winston.transports.Console);
 
 const logger = winston;
 
 
-const credsObject = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..',
-    '..', 'mail-credentials.json')));
+const credsObject = require('./mail-credentials.json');
 
 /**
  * Mail options.
