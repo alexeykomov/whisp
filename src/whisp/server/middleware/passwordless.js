@@ -24,20 +24,23 @@ const smtpServer  = email.server.connect({
   ssl:     true
 });
 
-passwordless.addDelivery((tokenToSend, uidToSend, recipient, callback) => {
-  smtpServer.send({
-    text: `Hello!\nAccess your account here: http://${
-        host}'?token=${tokenToSend}&uid=${
-        encodeURIComponent(uidToSend)}`,
-    from: MAILER_CREDENTIALS.fullUsername,
-    to: recipient,
-    subject: 'Token for Whisp'
-  }, (err, message) => {
-    if (err) {
-      logger.info(err);
-    }
-    callback(err);
-  });
+passwordless.addDelivery(async (tokenToSend, uidToSend, recipient, callback) => {
+  const sendMail = P.promisify(smtpServer.send);
+  try {
+    await sendMail({
+      text: `Hello!\nAccess your account here: http://${
+          'localhost:3001'}'?token=${tokenToSend}&uid=${
+          encodeURIComponent(uidToSend)}`,
+      from: MAILER_CREDENTIALS.fullUsername,
+      to: recipient,
+      subject: 'Token for Whisp'
+    });
+    logger.info('Mail was successfully sent.');
+    callback();
+  } catch (e) {
+    logger.error(e);
+    callback(e);
+  }
 });
 
 module.exports = {

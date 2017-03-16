@@ -52,7 +52,7 @@ const APP_PORT = process.env.NODE_ENV === 'production' ? 80 : 3001;
  * URL of app.
  * @type {string}
  */
-const APP_URL = 'http://localhost:3002';
+const APP_URL = '';
 
 
 /**

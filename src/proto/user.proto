@@ -11,4 +11,5 @@ message User {
   string middle_name = 6;
   string last_name = 7;
   Settings settings = 8;
+  repeated string contact_id = 9;
 }
