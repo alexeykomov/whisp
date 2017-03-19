@@ -17,17 +17,21 @@ const email = require('emailjs');
 
 passwordless.init(new RedisStore(REDIS_PORT, REDIS_SERVER));
 
-const smtpServer  = email.server.connect({
-  user:    MAILER_CREDENTIALS.fullUsername,
+const params = {
+  user: MAILER_CREDENTIALS.fullUsername,
   password: MAILER_CREDENTIALS.password,
-  host:    `${SMTP_SERVER}:${SMTP_PORT}`,
-  ssl:     true
-});
+  host: SMTP_SERVER,
+  port: SMTP_PORT,
+  ssl: true,
+  authentication: 'PLAIN',
+};
+const smtpServer = email.server.connect(params);
 
-passwordless.addDelivery(async (tokenToSend, uidToSend, recipient, callback) => {
-  const sendMail = P.promisify(smtpServer.send);
+passwordless.addDelivery(async (tokenToSend, uidToSend, recipient,
+                                callback) => {
+  const sendMail = P.promisify(smtpServer.send.bind(smtpServer));
   try {
-    await sendMail({
+    const message = await sendMail({
       text: `Hello!\nAccess your account here: http://${
           'localhost:3001'}'?token=${tokenToSend}&uid=${
           encodeURIComponent(uidToSend)}`,
@@ -35,13 +39,14 @@ passwordless.addDelivery(async (tokenToSend, uidToSend, recipient, callback) => 
       to: recipient,
       subject: 'Token for Whisp'
     });
-    logger.info('Mail was successfully sent.');
+    logger.info(`Mail was successfully sent ${message}`);
     callback();
   } catch (e) {
     logger.error(e);
     callback(e);
   }
 });
+
 
 module.exports = {
   passwordless

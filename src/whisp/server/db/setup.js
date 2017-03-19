@@ -35,16 +35,18 @@ async function setup() {
 
 async function createTables(conn) {
   const existingTables = await r.db(DB_NAME).tableList().run(conn);
+  logger.info('existingTables: ', existingTables);
 
   const tableCreateAttempts = Object.keys(TableName).map(aTableName => {
-    return async () => {
+    return (async () => {
       if (!existingTables.includes(aTableName)) {
-        const tableCreateResult = await r.db(DB_NAME).tableCreate(aTableName);
+        const tableCreateResult = await r.db(DB_NAME).tableCreate(aTableName)
+            .run(conn);
         logger.info(`Table ${aTableName} wasn't existing and was created.`);
       } else {
         logger.info(`Table ${aTableName} was existing and was skipped.`);
       }
-    }
+    })();
   });
 
   return Promise.all(tableCreateAttempts);

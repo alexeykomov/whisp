@@ -29,7 +29,7 @@ const DB_PORT = 28015;
 
 /**
  * Port of Redis instance.
- * @type {number}
+ * @type {string}
  */
 const REDIS_SERVER = 'localhost';
 
@@ -123,7 +123,7 @@ const SMTP_SERVER = 'smtp.gmail.com';
 
 
 /**
- * @type {string}
+ * @type {number}
  */
 const SMTP_PORT = 465;
 
@@ -160,10 +160,7 @@ const MAIL_OPTIONS = {
 };
 
 
-const MAILER_CREDENTIALS = {
-  user: credsObject.username,
-  pass: credsObject.password
-};
+const MAILER_CREDENTIALS = credsObject;
 
 
 module.exports = {

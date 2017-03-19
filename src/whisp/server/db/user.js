@@ -10,10 +10,10 @@
 const { USER } = require('./tables');
 const { selectEntity, insertEntity, updateEntity } = require('./entity');
 const { DB_NAME, logger } = require('../predefined');
-const User = require('../../../src/proto/commonjs/user_pb').User;
 const { fieldNameFromGetter } = require('../helpers/string');
 const { connection } = require('./connection');
 const r = require('rethinkdb');
+require('../../../src/proto/commonjs/user_pb');
 
 
 /**
@@ -30,13 +30,16 @@ async function selectUser(aId) {
  * @return {Promise.<proto.User>}
  */
 async function selectUserByEmail(aEmail) {
-  const emailKeyName = fieldNameFromGetter(User.prototype.getEmail.name);
+  const emailKey = fieldNameFromGetter(proto.User,
+      proto.User.prototype.getEmail);
+  console.log('emailKey: ', emailKey);
   try {
     const conn = await connection;
-    const users = await r.db(DB_NAME).table(USER).filter({
-          [emailKeyName]: aEmail
+    const usersCursor = await r.db(DB_NAME).table(USER).filter({
+          [emailKey]: aEmail
         }).run(conn);
-    return User.fromObject(users[0]);
+    const users = await usersCursor.toArray();
+    return users.length ? proto.User.fromObject(users[0]) : null;
   } catch (e) {
     logger.info(e);
   }
