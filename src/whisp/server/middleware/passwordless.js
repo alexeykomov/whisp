@@ -9,7 +9,7 @@
 
 const passwordless = require('passwordless');
 const { MAILER_CREDENTIALS, logger, REDIS_SERVER,
-    REDIS_PORT, SMTP_SERVER, SMTP_PORT } = require('../predefined');
+    REDIS_PORT, SMTP_SERVER } = require('../predefined');
 const P = require('bluebird');
 const RedisStore = require('passwordless-redisstore');
 const email = require('emailjs');
@@ -18,13 +18,12 @@ const email = require('emailjs');
 passwordless.init(new RedisStore(REDIS_PORT, REDIS_SERVER));
 
 const params = {
-  user: MAILER_CREDENTIALS.fullUsername,
+  user: MAILER_CREDENTIALS.username,
   password: MAILER_CREDENTIALS.password,
   host: SMTP_SERVER,
-  port: SMTP_PORT,
   ssl: true,
-  authentication: 'PLAIN',
 };
+
 const smtpServer = email.server.connect(params);
 
 passwordless.addDelivery(async (tokenToSend, uidToSend, recipient,
@@ -33,7 +32,7 @@ passwordless.addDelivery(async (tokenToSend, uidToSend, recipient,
   try {
     const message = await sendMail({
       text: `Hello!\nAccess your account here: http://${
-          'localhost:3001'}'?token=${tokenToSend}&uid=${
+          'localhost:3001/'}?token=${tokenToSend}&uid=${
           encodeURIComponent(uidToSend)}`,
       from: MAILER_CREDENTIALS.fullUsername,
       to: recipient,

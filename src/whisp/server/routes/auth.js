@@ -22,7 +22,6 @@ const sendToken = passwordless.requestToken(grantAccess);
 
 
 async function grantAccess(email, delivery, callback, req) {
-  logger.info('email: ', email);
   try {
     const user = await selectUserByEmail(email);
     if (!user) {
