@@ -12,4 +12,5 @@
 	url = https://github.com/alexeykomov/reflect-common
 [submodule "src/protobuf"]
 	path = src/protobuf
-	url = https://github.com/google/protobuf.git
+	url = https://github.com/alexeykomov/protobuf.git
+	branch = 06312c4c42a75ebaca710f5b9c827fb47f188c2a
