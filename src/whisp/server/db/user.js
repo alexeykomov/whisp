@@ -32,13 +32,13 @@ async function selectUser(aId) {
 async function selectUserByEmail(aEmail) {
   const emailKey = fieldNameFromGetter(proto.User,
       proto.User.prototype.getEmail);
-  console.log('emailKey: ', emailKey);
   try {
     const conn = await connection;
     const usersCursor = await r.db(DB_NAME).table(USER).filter({
           [emailKey]: aEmail
         }).run(conn);
     const users = await usersCursor.toArray();
+        console.log('users: ', users);
     return users.length ? proto.User.fromObject(users[0]) : null;
   } catch (e) {
     logger.info(e);
@@ -50,7 +50,7 @@ async function selectUserByEmail(aEmail) {
  * @param {proto.User} aUser
  */
 async function insertUser(aUser) {
-  const id  = await insertEntity(aUser.toObject(), USER);
+  const id = await insertEntity(aUser.toObject(), USER);
   return id;
 }
 

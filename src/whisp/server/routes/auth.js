@@ -11,8 +11,8 @@
 const { logger } = require('../predefined');
 const { passwordless } = require('../middleware/passwordless');
 const { insertUser, selectUserByEmail } = require('../db/user');
-const User = require('../../../src/proto/commonjs/user_pb').User;
-const Settings = require('../../../src/proto/commonjs/settings_pb').Settings;
+require('../../../src/proto/commonjs/user_pb');
+require('../../../src/proto/commonjs/settings_pb');
 
 
 /**
@@ -25,11 +25,18 @@ async function grantAccess(email, delivery, callback, req) {
   try {
     const user = await selectUserByEmail(email);
     if (!user) {
-      const user = new User();
+      const user = new proto.User();
       user.setEmail(email);
-      user.setSettings(new Settings);
+      user.setSettings(new proto.Settings);
+      user.setFacebookId();
+      user.setFirstName();
+      user.setLastName();
+      user.setMiddleName();
+      user.setVkId();
+      user.set
       await insertUser(user);
     }
+    console.log('user: ', user.toObject());
     callback(null, email);
   } catch (e) {
     logger.error(e);

@@ -9,7 +9,13 @@
  */
 
 
-const { APP_URL, LOGIN_URL, LOGOUT_URL, logger, } = require('../predefined');
+const {
+  APP_URL,
+  LOGIN_URL,
+  LOGOUT_URL,
+  logger,
+  MAIL_SENT_URL
+} = require('../predefined');
 const routesSettings = require('./settings');
 const routesView = require('./view');
 const routesAuth = require('./auth');
@@ -22,17 +28,15 @@ const router = express.Router();
 router.get(APP_URL, ensureAuthenticated, routesView.render);
 router.get(LOGIN_URL, (req, res) => res.redirect(LOGIN_URL));
 router.post(`${APP_URL}/sendtoken`,
-    (req, res, next) => {
-      logger.info(req.param('user'));
-      logger.info(req.body['user']);
-      next();
-    },
     routesAuth.sendToken,
     (err, req, res, next) => {
       logger.error(err.stack);
       res.status(500).send('Error ${err}');
     },
-    (req, res) => res.render('sent'));
+    (req, res) => {
+      const user = req.user;
+      res.redirect(`${MAIL_SENT_URL}?email=${user.email}`)
+    });
 router.get(LOGOUT_URL, (req, res) => {
   req.logout();
   res.redirect(APP_URL);

@@ -56,10 +56,23 @@ const APP_URL = '';
 
 
 /**
+ * URL of app.
+ * @type {string}
+ */
+const LANDING_URL = 'localhost:8000';
+
+
+/**
  * URL of login form.
  * @type {string}
  */
 const LOGIN_URL = `${APP_URL}/login`;
+
+
+/**
+ * @type {string}
+ */
+const MAIL_SENT_URL = `${LANDING_URL}/mail-sent`;
 
 
 /**

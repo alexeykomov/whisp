@@ -39,9 +39,13 @@ async function selectEntity(aId, aTableName) {
  */
 async function insertEntity(aBody, aTableName) {
   try {
+    const body = Object.assign({}, aBody);
+    //Deleting id to allow DB to generate it.
+    body.id = null;
+    console.log('body: ', body);
     const conn = await connection;
-    const { generated_keys: [ primaryKey ] = [] } = await r.db(DB_NAME)
-        .table(aTableName).insert(aBody).run(conn) || {};
+    const { generated_keys: [ primaryKey = null ] = [] } = await r.db(DB_NAME)
+        .table(aTableName).insert(body).run(conn) || {};
     return primaryKey;
   } catch (e) {
     logger.info(e);

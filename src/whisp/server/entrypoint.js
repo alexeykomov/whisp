@@ -20,7 +20,7 @@ const P = require('bluebird');
 const { router } = require('./routes/index');
 const { applyMiddlewares } = require('./middleware/index');
 const { setup } = require('./db/setup');
-require('google-closure-library');
+const path = require('path');
 
 
 const app = express();
@@ -29,16 +29,18 @@ const app = express();
 applyMiddlewares(app);
 
 //Development only routes.
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
   app.locals.pretty = true;
 }
 //Routes.
 app.use(APP_URL, router);
 
 app.set('port', APP_PORT);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 //Error handling middleware should be loaded after the loading the routes.
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
   app.use(errorHandler());
 }
 
