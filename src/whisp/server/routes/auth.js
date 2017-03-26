@@ -28,12 +28,6 @@ async function grantAccess(email, delivery, callback, req) {
       const user = new proto.User();
       user.setEmail(email);
       user.setSettings(new proto.Settings);
-      user.setFacebookId();
-      user.setFirstName();
-      user.setLastName();
-      user.setMiddleName();
-      user.setVkId();
-      user.set
       await insertUser(user);
     }
     console.log('user: ', user.toObject());

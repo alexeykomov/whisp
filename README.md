@@ -23,10 +23,18 @@ Installation and run
   git submodule init
   git submodule update
   ```
+3. Specifically update protobuf.  
+  ```
+  cd ./src/protobuf
+  git pull origin json-serialization
+  cd ./js
+  npm install
+  export PROTOC=protoc && gulp dist
+  ```
 
-3. Runtimes - Install [Java][jdk], [Python][python] and [Node.js][node.js]. Node.js must be at least of version 6.
+4. Runtimes - Install [Java][jdk], [Python][python] and [Node.js][node.js]. Node.js must be at least of version 6.
 
-4. Globally install following node modules - [Express][express], [Less][less], [Bunyan][bunyan].
+5. Globally install following node modules - [Express][express], [Less][less], [Bunyan][bunyan].
 
   ```
   npm install express -g
@@ -35,14 +43,14 @@ Installation and run
   npm install bunyan -g
   ```
 
-5. Locally to project, install all needed node modules.
+6. Locally to project, install all needed node modules.
 
   ```
   cd whisp
   npm install
   ```
 
-6. Compile from sources.
+7. Compile from sources.
 
   ```
   npm run compile-ui
@@ -50,13 +58,13 @@ Installation and run
   npm run compile-less
   ```
 
-7. Launch an application.
+8. Launch an application.
 
   ```
   npm run start-debug
   ```
 
-8. Go to [http://localhost:3001/](http://localhost:3001/)
+9. Go to [http://localhost:3001/](http://localhost:3001/)
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 [python]: https://www.python.org/download/releases/2.7/
