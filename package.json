@@ -7,21 +7,25 @@
     "doc": "doc"
   },
   "scripts": {
-    "start": "echo \"Node.js 6 is required.\n\" && npm run compile-server && node target/server/entrypoint.js",
+    "start": "echo \"Node.js 6 is required.\n\" && npm run compile-server && export NODE_PATH=\"$NODE_PATH:./target/:./target/server/\" && node target/server/entrypoint.js",
     "start:debug": "echo \"Node.js 6 is required.\n\" && nodemon",
-    "compile-ui": "npm run protoc && npm run jsx -s && java -jar bin/compiler-react.jar --js=src/closure-library/closure/goog/**.js --js=src/closure-library/third_party/**.js --js=src/end-to-end/src/javascript/crypto/e2e/**.js --js='!src/end-to-end/src/javascript/crypto/e2e/extension/helper/**.js' --js=!src/end-to-end/src/javascript/crypto/e2e/extension/externs.js --js=src/react/react-0.13.1-build/react.js --js=src/reflect-common/**.js --js=src/whisp/client/**.js --js=zlib.js/**.js --js='!src/**test.js' --js='!src/**/*test*/**/*.js' --js=src/end-to-end/lib/docs-build/zlib_externs.js --js=src/protobuf/js/**.js --js=!src/protobuf/js/commonjs --js=!src/protobuf/js/gulpfile.js --js=src/proto/closure/*.js --js_output_file='target/client/output-compiled-ui.js.tmp' --charset=utf-8 --compilation_level=ADVANCED_OPTIMIZATIONS --summary_detail_level=3 --warning_level=VERBOSE --debug=true --source_map_format=V3 --language_in=ECMASCRIPT6 --language_out=ECMASCRIPT5 --output_wrapper=';(function(){%output%})();' --externs=src/externs.js --externs=src/redux-externs.js --externs=src/redux-thunk-externs.js --formatting=PRETTY_PRINT --define='goog.DEBUG=true' --define='jspb.Message.GENERATE_TO_OBJECT=true' --entry_point=goog:whisp.ui.EntryPoint && npm run concat -s",
+    "compile-ui": "npm run protoc && npm run jsx -s && java -jar bin/compiler-react.jar --js=src/closure-library/closure/goog/**.js --js=src/closure-library/third_party/**.js --js=src/end-to-end/src/javascript/crypto/e2e/**.js --js='!src/end-to-end/src/javascript/crypto/e2e/extension/helper/**.js' --js=!src/end-to-end/src/javascript/crypto/e2e/extension/externs.js --js=src/react/react-0.13.1-build/react.js --js=src/reflect-common/**.js --js=src/whisp/client/**.js --js=zlib.js/**.js --js='!src/**test.js' --js='!src/**/*test*/**/*.js' --js=src/end-to-end/lib/docs-build/zlib_externs.js --js=src/protobuf/js/**.js --js=!src/protobuf/js/commonjs --js=!src/protobuf/js/gulpfile.js --js=target/proto/closure/*.js --js_output_file='target/client/output-compiled-ui.js.tmp' --charset=utf-8 --compilation_level=ADVANCED_OPTIMIZATIONS --summary_detail_level=3 --warning_level=VERBOSE --debug=true --source_map_format=V3 --language_in=ECMASCRIPT6 --language_out=ECMASCRIPT5 --output_wrapper=';(function(){%output%})();' --externs=src/externs.js --externs=src/redux-externs.js --externs=src/redux-thunk-externs.js --formatting=PRETTY_PRINT --define='goog.DEBUG=true' --define='jspb.Message.GENERATE_TO_OBJECT=true' --entry_point=goog:whisp.ui.EntryPoint && npm run concat -s",
     "compile-worker": "npm run protoc && java -jar bin/compiler.jar --js=src/closure-library/closure/goog/**.js --js=src/closure-library/third_party/**.js --js=zlib.js/**.js --js=src/end-to-end/src/javascript/crypto/e2e/**.js --js='!src/end-to-end/src/javascript/crypto/e2e/extension/helper/**.js' --js=!src/end-to-end/src/javascript/crypto/e2e/extension/externs.js --js=src/reflect-common/**.js --js=src/whisp/worker/**.js --js='!src/**test.js' --js='!src/**/*test*/**/*.js' --js=src/end-to-end/lib/docs-build/zlib_externs.js  --js_output_file='target/client/output-compiled-worker.js' --charset=utf-8 --compilation_level=ADVANCED_OPTIMIZATIONS --summary_detail_level=3 --warning_level=VERBOSE --debug=true --source_map_format=V3 --language_in=ECMASCRIPT6 --language_out=ECMASCRIPT5 --output_wrapper=';(function(){%output%})();' --externs=src/externs.js --formatting=PRETTY_PRINT --define='goog.DEBUG=true' --entry_point=goog:whisp.worker.EntryPoint",
     "jsx": "node ./bin/babel-jsx.js",
-    "compile-server": "npm run clean-server && npm run copy-server && cd ./src/whisp",
+    "copy-google-protobuf": "cp ./src/protobuf/js/google-protobuf.js ./target/google-protobuf.js",
+    "compile-server": "npm run clean-server && npm run protoc && npm run copy-google-protobuf && npm run copy-server",
     "clean-server": "rm -r ./target/server || true",
     "mkdir-client": "mkdir target/client || true",
+    "mkdir-proto": "mkdir -p target/proto/commonjs && mkdir -p target/proto/closure || true",
+    "mkdir-protobuf": "mkdir -p target/protobuf/js || true",
     "copy-server": "mkdir ./target/server && cp -R ./src/whisp/server/* ./target/server",
     "clean-ui": "rm target/client/output-compiled-ui.js || true",
     "clean-ui-tmp": "rm target/client/output-compiled-ui.js.tmp || true",
     "concat": "npm run clean-ui && cat node_modules/redux/dist/redux.min.js >> target/client/output-compiled-ui.js && cat node_modules/redux-thunk/dist/redux-thunk.min.js >> target/client/output-compiled-ui.js && cat target/client/output-compiled-ui.js.tmp >> target/client/output-compiled-ui.js && npm run clean-ui-tmp",
     "concat-with-router": "cat node_modules/redux/dist/redux.min.js >> target/client/output-compiled-ui.js && cat node_modules/redux-thunk/dist/redux-thunk.min.js >> target/client/output-compiled-ui.js && cat node_modules/react-router/umd/ReactRouter.min.js >> target/client/output-compiled-ui.js",
     "compile-less": "lessc --compress --verbose ./less/all.less > ./target/client/output-compiled.css",
-    "protoc": "protoc --proto_path=./src/proto --js_out=./src/proto/closure:. ./src/proto/*.proto && protoc --proto_path=./src/proto --js_out=import_style=commonjs:./src/proto/commonjs ./src/proto/*.proto"
+    "protoc": "npm run mkdir-proto && protoc --proto_path=./src/proto --js_out=./target/proto/closure:. ./src/proto/*.proto && protoc --proto_path=./src/proto --js_out=import_style=commonjs:./target/proto/commonjs ./src/proto/*.proto",
+    "postinstall": "npm run mkdir-proto && cd ./src/protobuf/js/ && export PROTOC=protoc && gulp dist && cd ../../.."
   },
   "keywords": [
     "messenger",
@@ -77,7 +81,6 @@
     "express": "^4.14.0",
     "express-session": "^1.11.3",
     "google-closure-library": "^20161201.0.0",
-    "google-protobuf": "3.0.0",
     "jade": "^1.11.0",
     "lodash-es": "^4.14.0",
     "method-override": "^2.3.5",

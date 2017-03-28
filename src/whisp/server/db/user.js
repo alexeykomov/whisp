@@ -13,7 +13,7 @@ const { DB_NAME, logger } = require('../predefined');
 const { fieldNameFromGetter } = require('../helpers/string');
 const { connection } = require('./connection');
 const r = require('rethinkdb');
-require('../../../src/proto/commonjs/user_pb');
+require('proto/commonjs/user_pb');
 
 
 /**

@@ -11,8 +11,8 @@
 const { logger } = require('../predefined');
 const { passwordless } = require('../middleware/passwordless');
 const { insertUser, selectUserByEmail } = require('../db/user');
-require('../../../src/proto/commonjs/user_pb');
-require('../../../src/proto/commonjs/settings_pb');
+require('proto/commonjs/user_pb');
+require('proto/commonjs/settings_pb');
 
 
 /**
