@@ -22,15 +22,15 @@ const sendToken = passwordless.requestToken(grantAccess);
 
 
 async function grantAccess(email, delivery, callback, req) {
+      console.log('grantAccess: ', email);
   try {
-    const user = await selectUserByEmail(email);
+    let user = await selectUserByEmail(email);
     if (!user) {
-      const user = new proto.User();
+      user = new proto.User();
       user.setEmail(email);
       user.setSettings(new proto.Settings);
       await insertUser(user);
     }
-    console.log('user: ', user.toObject());
     callback(null, email);
   } catch (e) {
     logger.error(e);

@@ -13,6 +13,8 @@ const {
     COOKIE_AGE,
     SECRET,
     logger,
+    APP_URL,
+    STATIC_URL,
 } = require('../predefined');
 const express = require('express');
 const path = require('path');
@@ -29,7 +31,6 @@ const compression = require('compression');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const { passwordless } = require('./passwordless');
-const { associateUser } = require('./associateuser');
 
 
 function* middlewares() {
@@ -56,10 +57,10 @@ function* middlewares() {
   yield flash();
   yield passport.initialize();
   yield passport.session();
-  yield ['/static', express.static(path.join(__dirname, '..', 'client'))];
+  yield [STATIC_URL, express.static(path.join(__dirname, '..', '..',
+      'client'))];
   yield passwordless.sessionSupport();
-  yield passwordless.acceptToken({ successRedirect: '/'});
-  yield associateUser;
+  yield passwordless.acceptToken({ successRedirect: APP_URL});
 }
 
 

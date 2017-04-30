@@ -14,19 +14,20 @@ const {
   LOGIN_URL,
   LOGOUT_URL,
   logger,
-  MAIL_SENT_URL
+  MAIL_SENT_URL,
 } = require('../predefined');
+const path = require('path');
 const settings = require('./settings');
 const view = require('./view');
 const auth = require('./auth');
 const express = require('express');
+const passwordless = require('passwordless');
 
 
 const router = express.Router();
 
 
 router.get(APP_URL, ensureAuthenticated, view.render);
-router.get(LOGIN_URL, (req, res) => res.redirect(LOGIN_URL));
 router.post(`${APP_URL}/sendtoken`,
     auth.sendToken,
     (err, req, res, next) => {
@@ -34,22 +35,17 @@ router.post(`${APP_URL}/sendtoken`,
       res.status(500).send('Error ${err}');
     },
     (req, res) => {
-      console.log('req.body: ', req.body);
-      const user = req.user;
-      res.redirect(`${MAIL_SENT_URL}?email=${user.email}`)
+      const url = `${MAIL_SENT_URL}?email=${req.body.user}`;
+      res.redirect(url)
     });
-router.get(LOGOUT_URL, (req, res) => {
-  req.logout();
-  res.redirect(APP_URL);
+router.get(LOGOUT_URL, passwordless.logout(), (req, res) => {
+  res.redirect(LOGIN_URL);
 });
 router.post('/settings/save', ensureAuthenticated, settings.save);
 
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect(LOGIN_URL);
+  passwordless.restricted({ failureRedirect: LOGIN_URL })(req, res, next);
 }
 
 

@@ -8,8 +8,8 @@
  */
 
 
-const { selectUser } = require('../db/user');
-const { logger } = require('../predefined');
+const { selectUserByEmail } = require('../db/user');
+const { logger, STATIC_URL } = require('../predefined');
 
 
 /**
@@ -17,14 +17,15 @@ const { logger } = require('../predefined');
  */
 async function render(req, res) {
   try {
-    const user = await selectUser(req.user);
+    const user = await selectUserByEmail(req.user);
     res.render('main', {
       jsFileNames: ['output-compiled-ui.js'],
       cssFileNames: ['output-compiled.css'],
       // Late modules are all js files except first one.
       modules: JSON.stringify([].slice(1)),
       languageNames: JSON.stringify([]),
-      user: JSON.stringify(user, null, ' '),
+      user: JSON.stringify(user.toObject(), null, ' '),
+      staticUrl: STATIC_URL,
     });
   } catch (e) {
     logger.error(e);

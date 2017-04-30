@@ -11,6 +11,7 @@
 const r = require('rethinkdb');
 const { connection } = require('./connection');
 const { DB_NAME, logger } = require('../predefined');
+const { wrap } = require('../helpers/db');
 
 
 /**
@@ -22,9 +23,9 @@ const { DB_NAME, logger } = require('../predefined');
 async function selectEntity(aId, aTableName) {
   try {
     const conn = await connection;
-    const getResult = await r.db(DB_NAME).table(aTableName)
-        .get(aId).run(conn);
-    return getResult;
+    const result = await wrap(r.db(DB_NAME).table(aTableName)
+        .get(aId).run(conn));
+    return result;
   } catch (e) {
     logger.info(e);
   }
@@ -41,14 +42,14 @@ async function insertEntity(aBody, aTableName) {
   try {
     const body = Object.assign({}, aBody);
     //Deleting id to allow DB to generate it.
-    body.id = null;
-    console.log('body: ', body);
+    delete body.id;
     const conn = await connection;
-    const { generated_keys: [ primaryKey = null ] = [] } = await r.db(DB_NAME)
-        .table(aTableName).insert(body).run(conn) || {};
+    const { generated_keys: [ primaryKey = null ] = [] } =
+        await wrap(r.db(DB_NAME)
+            .table(aTableName).insert(body).run(conn)) || {};
     return primaryKey;
   } catch (e) {
-    logger.info(e);
+    logger.error(e);
   }
 }
 
@@ -63,11 +64,11 @@ async function insertEntity(aBody, aTableName) {
 async function updateEntity(aId, aBody, aTableName) {
   try {
     const conn = await connection;
-    const insertResult = await r.db(DB_NAME).table(aTableName)
-        .get(aId).insert(aBody).run(conn);
-    return insertResult;
+    const result = await wrap(r.db(DB_NAME).table(aTableName)
+        .get(aId).insert(aBody).run(conn));
+    return result;
   } catch (e) {
-    logger.info(e);
+    logger.error(e);
   }
 }
 

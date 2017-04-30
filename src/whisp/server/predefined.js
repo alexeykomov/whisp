@@ -59,20 +59,20 @@ const APP_URL = '';
  * URL of app.
  * @type {string}
  */
-const LANDING_URL = 'localhost:8000';
+const LANDING_URL = 'http://localhost:8000';
 
 
 /**
  * URL of login form.
  * @type {string}
  */
-const LOGIN_URL = `${APP_URL}/login`;
+const LOGIN_URL = `${LANDING_URL}/login-email.html`;
 
 
 /**
  * @type {string}
  */
-const MAIL_SENT_URL = `${LANDING_URL}/mail-sent`;
+const MAIL_SENT_URL = `${LANDING_URL}/mail-sent.html`;
 
 
 /**
@@ -80,6 +80,12 @@ const MAIL_SENT_URL = `${LANDING_URL}/mail-sent`;
  * @type {string}
  */
 const LOGOUT_URL = `${APP_URL}/logout`;
+
+
+/**
+ * @type {string}
+ */
+const STATIC_URL = `${APP_URL}/static`;
 
 
 /**
@@ -184,7 +190,9 @@ module.exports = {
   APP_PORT,
   APP_URL,
   LOGIN_URL,
+  MAIL_SENT_URL,
   LOGOUT_URL,
+  STATIC_URL,
   COOKIE_AGE,
   SECRET,
   USE_OAUTH,

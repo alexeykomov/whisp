@@ -13,6 +13,7 @@ const { DB_NAME, logger } = require('../predefined');
 const { fieldNameFromGetter } = require('../helpers/string');
 const { connection } = require('./connection');
 const r = require('rethinkdb');
+const { wrap } = require('../helpers/db');
 require('proto/commonjs/user_pb');
 
 
@@ -34,14 +35,13 @@ async function selectUserByEmail(aEmail) {
       proto.User.prototype.getEmail);
   try {
     const conn = await connection;
-    const usersCursor = await r.db(DB_NAME).table(USER).filter({
+    const usersCursor = await wrap(r.db(DB_NAME).table(USER).filter({
           [emailKey]: aEmail
-        }).run(conn);
+        }).run(conn));
     const users = await usersCursor.toArray();
-        console.log('users: ', users);
     return users.length ? proto.User.fromObject(users[0]) : null;
   } catch (e) {
-    logger.info(e);
+    logger.error(e);
   }
 }
 
@@ -50,8 +50,12 @@ async function selectUserByEmail(aEmail) {
  * @param {proto.User} aUser
  */
 async function insertUser(aUser) {
-  const id = await insertEntity(aUser.toObject(), USER);
-  return id;
+  try {
+    const id = await insertEntity(aUser.toObject(), USER);
+    return id;
+  } catch (e) {
+    logger.error(e);
+  }
 }
 
 
@@ -60,7 +64,11 @@ async function insertUser(aUser) {
  * @param {proto.User} aUser
  */
 async function updateUser(aUser) {
-  return updateEntity(aUser.toObject(), USER);
+  try {
+    return updateEntity(aUser.toObject(), USER);
+  } catch (e) {
+    logger.error(e);
+  }
 }
 
 
