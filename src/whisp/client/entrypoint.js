@@ -173,3 +173,5 @@ whisp.ui.EntryPoint = EntryPoint;
 
 // Call main method.
 new whisp.ui.EntryPoint().enterDocument();
+
+

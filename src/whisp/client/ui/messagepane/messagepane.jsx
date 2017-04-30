@@ -29,6 +29,7 @@ whisp.ui.MessagePane = React.createClass({
     contacts: React.PropTypes.array.isRequired,
     currentThreadId: React.PropTypes.string.isRequired,
     isSmallScreen: React.PropTypes.bool.isRequired,
+    messagesShouldBeScrolledDown: React.PropTypes.number.isRequired,
   },
 
   render() {
@@ -50,10 +51,10 @@ whisp.ui.MessagePane = React.createClass({
               isSmallScreen={this.props.isSmallScreen}
           />
           <div className="pages messages-pages">
-            <div className="page">
-              {<whisp.ui.Messages
-                  messages={this.props.messages}/>
-              }
+            <div className="page messages-and-messages-bar-wrapper">
+              <whisp.ui.Messages
+                  messages={this.props.messages}
+                  messagesShouldBeScrolledDown={this.props.messagesShouldBeScrolledDown}/>
               <whisp.ui.MessageBar
                   currentMessageDraft={this.props.currentMessageDraft}
                   currentThreadId={this.props.currentThreadId}

@@ -1,18 +1,20 @@
 {
+  "exec": "npm run start",
   "restartable": "rs",
   "ignore": [
     ".git",
-    "node_modules/**/node_modules"
+    "node_modules/**/node_modules",
+    "src/proto/*.js"
   ],
-  "verbose": true,
+  "verbose": false,
   "watch": [
-    "src/whisp/server/"
+    "src/whisp/server/",
+    "src/proto/"
   ],
   "events": {
-    "restart": "npm run compile-server"
   },
   "env": {
     "NODE_ENV": "development"
   },
-  "ext": "js json jade"
+  "ext": "js json proto"
 }

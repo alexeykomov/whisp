@@ -278,4 +278,9 @@ whisp.State = {
     settings.setReload(false);
     return settings;
   })(),
+
+  /**
+   * @type {boolean}
+   */
+  messagesShouldBeScrolledDown: true,
 };
